@@ -2,12 +2,12 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
     <title>کافه لومیر</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastinfar/vazirmatn-font@v33.003/Vazirmatn-font-face.css">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
         body {
             font-family: 'Vazirmatn', sans-serif;
             direction: rtl;
@@ -63,7 +63,6 @@
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             backdrop-filter: blur(10px);
-            transition: opacity 0.3s ease;
         }
 
         .card-image-box img { width: 100%; height: 220px; object-fit: cover; display: block; }
@@ -81,7 +80,7 @@
             --poster-color: transparent;
         }
 
-        /* دکمه اصلی و تضمینی AR */
+        /* دکمه AR */
         .ar-trigger-btn {
             background: linear-gradient(135deg, #d4af37, #b8860b);
             color: #121212;
@@ -106,62 +105,150 @@
         .card-info .price { color: #d4af37; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; }
         .card-info .desc { color: #aaa; font-size: 0.9rem; line-height: 1.6; }
 
-        /* لایه دوربین زنده (برای تمام گوشی‌های اندروید) */
-        #camera-modal {
+        /* ==================== رابط کاربری کامل شبیه به آیفون (Quick Look UI) ==================== */
+        #ios-ar-view {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000;
             z-index: 999999;
+            overflow: hidden;
         }
-        #camera-feed {
+        #camera-video {
             width: 100%;
             height: 100%;
             object-fit: cover;
             position: absolute;
             top: 0; left: 0;
+            z-index: 1;
         }
-        #interactive-viewer {
+
+        /* لایه رتیکل و اسکن سطح مثل ARKit اپل */
+        .reticle-container {
             position: absolute;
-            top: 55%;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateX(60deg);
+            width: 200px;
+            height: 200px;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .reticle-ring {
+            width: 100%;
+            height: 100%;
+            border: 2px dashed rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: ringPulse 2.5s infinite linear;
+        }
+        .reticle-shadow {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+        }
+
+        @keyframes ringPulse {
+            0% { transform: scale(0.9); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+            100% { transform: scale(0.9); opacity: 0.5; }
+        }
+
+        /* انیمیشن اولیه جستجوی سطح */
+        #surface-scanner {
+            position: absolute;
+            top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 90vw;
-            height: 55vh;
-            --poster-color: transparent;
-            background: transparent;
-            z-index: 10;
+            background: rgba(20, 20, 20, 0.75);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            padding: 14px 22px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: opacity 0.5s ease;
         }
-        .cam-header {
+
+        /* لایه مدل ۳ بعدی */
+        #ios-model-viewer {
             position: absolute;
-            top: 20px;
-            left: 15px;
-            right: 15px;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            --poster-color: transparent;
+            z-index: 5;
+        }
+
+        /* نوار بالای آیفون (دکمه بستن اپلی) */
+        .ios-top-bar {
+            position: absolute;
+            top: 25px;
+            left: 20px;
+            right: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 20;
+            z-index: 30;
         }
-        .cam-badge {
-            background: rgba(0, 0, 0, 0.7);
-            color: #d4af37;
-            padding: 8px 14px;
+        .ios-close-btn {
+            background: rgba(30, 30, 30, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .ios-badge {
+            background: rgba(30, 30, 30, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.85rem;
-            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: #f1f1f1;
         }
-        .close-cam-btn {
-            background: #e74c3c;
+
+        /* نوار پایینی اپل با دکمه ریست زاویه */
+        .ios-bottom-bar {
+            position: absolute;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 30;
+        }
+        .ios-dock-btn {
+            background: rgba(30, 30, 30, 0.75);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
             color: #fff;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
             font-family: 'Vazirmatn', sans-serif;
-            font-size: 0.9rem;
-            font-weight: bold;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             cursor: pointer;
         }
 
+        /* فوتر */
         .cafe-footer {
             margin-top: 50px;
             background: rgba(15, 15, 15, 0.85);
@@ -200,14 +287,12 @@
                 </div>
                 <div class="model-box">
                     <model-viewer 
-                        id="item-1"
                         src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
-                        ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
                         camera-controls 
                         auto-rotate 
                         shadow-intensity="1">
                     </model-viewer>
-                    <button class="ar-trigger-btn" onclick="triggerAR('item-1', 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
+                    <button class="ar-trigger-btn" onclick="launchCustomAR('https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
                         ✨ مشاهده روی میز شما (AR)
                     </button>
                 </div>
@@ -225,14 +310,12 @@
                 </div>
                 <div class="model-box">
                     <model-viewer 
-                        id="item-2"
                         src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
-                        ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
                         camera-controls 
                         auto-rotate 
                         shadow-intensity="1">
                     </model-viewer>
-                    <button class="ar-trigger-btn" onclick="triggerAR('item-2', 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
+                    <button class="ar-trigger-btn" onclick="launchCustomAR('https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
                         ✨ مشاهده روی میز شما (AR)
                     </button>
                 </div>
@@ -250,14 +333,12 @@
                 </div>
                 <div class="model-box">
                     <model-viewer 
-                        id="item-3"
                         src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
-                        ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
                         camera-controls 
                         auto-rotate 
                         shadow-intensity="1">
                     </model-viewer>
-                    <button class="ar-trigger-btn" onclick="triggerAR('item-3', 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
+                    <button class="ar-trigger-btn" onclick="launchCustomAR('https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
                         ✨ مشاهده روی میز شما (AR)
                     </button>
                 </div>
@@ -275,14 +356,12 @@
                 </div>
                 <div class="model-box">
                     <model-viewer 
-                        id="item-4"
                         src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
-                        ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
                         camera-controls 
                         auto-rotate 
                         shadow-intensity="1">
                     </model-viewer>
-                    <button class="ar-trigger-btn" onclick="triggerAR('item-4', 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
+                    <button class="ar-trigger-btn" onclick="launchCustomAR('https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
                         ✨ مشاهده روی میز شما (AR)
                     </button>
                 </div>
@@ -305,18 +384,44 @@
         </footer>
     </main>
 
-    <!-- پنجره دوربین زنده -->
-    <div id="camera-modal">
-        <div class="cam-header">
-            <span class="cam-badge">📷 دوربین زنده روی میز</span>
-            <button class="close-cam-btn" onclick="closeCameraView()">✕ بستن</button>
+    <!-- محیط واقعیت افزوده مو‌به‌مو شبیه آیفون (برای اندروید) -->
+    <div id="ios-ar-view">
+        <video id="camera-video" autoplay playsinline muted></video>
+
+        <!-- نشانگر سطح و سایه طبیعی روی میز -->
+        <div class="reticle-container">
+            <div class="reticle-ring"></div>
+            <div class="reticle-shadow"></div>
         </div>
-        <video id="camera-feed" autoplay playsinline muted></video>
-        <model-viewer id="interactive-viewer" camera-controls touch-action="pan-y" auto-rotate shadow-intensity="1"></model-viewer>
+
+        <!-- پیام اسکن محیط -->
+        <div id="surface-scanner">
+            <span>📐</span> سطح میز را اسکن کنید...
+        </div>
+
+        <!-- نمایش‌دهنده مدل با امکان چرخش، بزرگ‌نمایی و حرکت -->
+        <model-viewer 
+            id="ios-model-viewer" 
+            camera-controls 
+            touch-action="pan-y" 
+            auto-rotate 
+            shadow-intensity="1.5"
+            shadow-softness="0.8">
+        </model-viewer>
+
+        <!-- نوار بالایی استایل iOS -->
+        <div class="ios-top-bar">
+            <button class="ios-close-btn" onclick="exitCustomAR()">✕</button>
+            <div class="ios-badge">واقعیت افزوده روی میز</div>
+        </div>
+
+        <!-- نوار پایینی استایل iOS -->
+        <div class="ios-bottom-bar">
+            <button class="ios-dock-btn" onclick="resetModelPosition()">🔄 بازنشانی زاویه</button>
+        </div>
     </div>
 
     <script>
-        // فیلتر دسته‌بندی
         function filterItems(category, button) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
@@ -331,54 +436,66 @@
             });
         }
 
-        // عملکرد دکمه AR برای همه گوشی‌ها
-        function triggerAR(viewerId, glbUrl, usdzUrl) {
+        // عملکرد دکمه روی آیفون و اندروید
+        function launchCustomAR(glbUrl, usdzUrl) {
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
             
             if (isIOS) {
-                // آیفون: مستقیماً Quick Look اپل باز می‌شود
-                const anchor = document.createElement('a');
-                anchor.setAttribute('rel', 'ar');
-                anchor.appendChild(document.createElement('img'));
-                anchor.setAttribute('href', usdzUrl);
-                anchor.click();
+                // آیفون: Quick Look رسمی خود سیستم عامل
+                const a = document.createElement('a');
+                a.setAttribute('rel', 'ar');
+                a.appendChild(document.createElement('img'));
+                a.setAttribute('href', usdzUrl);
+                a.click();
             } else {
-                // در اندروید: بلافاصله دوربین زنده با مدل روی میز باز می‌شود (بدون نیاز به هیچ دانلود یا ARCore)
-                openLiveCamera(glbUrl);
+                // اندروید: شبیه‌ساز کاملاً بومی عین آیفون با دسترسی دوربین
+                openIOSStyleCamera(glbUrl);
             }
         }
 
-        let activeStream = null;
+        let mediaStream = null;
 
-        async function openLiveCamera(modelUrl) {
-            const modal = document.getElementById('camera-modal');
-            const video = document.getElementById('camera-feed');
-            const viewer = document.getElementById('interactive-viewer');
+        async function openIOSStyleCamera(modelUrl) {
+            const arView = document.getElementById('ios-ar-view');
+            const video = document.getElementById('camera-video');
+            const viewer = document.getElementById('ios-model-viewer');
+            const scanner = document.getElementById('surface-scanner');
 
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: { ideal: "environment" } }
+                    video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } }
                 });
-                activeStream = stream;
+                mediaStream = stream;
                 video.srcObject = stream;
-                viewer.setAttribute('src', modelUrl);
-                modal.style.display = 'block';
             } catch (err) {
-                // اگر کاربر دسترسی دوربین نداد، در حالت تمام‌صفحه مدل را نمایش می‌دهد
-                viewer.setAttribute('src', modelUrl);
-                modal.style.display = 'block';
+                console.log("دوربین باز نشد یا اجازه داده نشد");
             }
+
+            viewer.setAttribute('src', modelUrl);
+            arView.style.display = 'block';
+            scanner.style.opacity = '1';
+
+            // بعد از ۲.۵ ثانیه اسکن سطح را پنهان کن (عین افکت اسکن اپل)
+            setTimeout(() => {
+                scanner.style.opacity = '0';
+            }, 2500);
         }
 
-        function closeCameraView() {
-            const modal = document.getElementById('camera-modal');
-            const video = document.getElementById('camera-feed');
-            if (activeStream) {
-                activeStream.getTracks().forEach(track => track.stop());
-                activeStream = null;
+        function resetModelPosition() {
+            const viewer = document.getElementById('ios-model-viewer');
+            viewer.cameraOrbit = '0deg 75deg 105%';
+            viewer.fieldOfView = 'auto';
+        }
+
+        function exitCustomAR() {
+            const arView = document.getElementById('ios-ar-view');
+            const video = document.getElementById('camera-video');
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
             }
             video.srcObject = null;
-            modal.style.display = 'none';
+            arView.style.display = 'none';
         }
     </script>
 </body>
