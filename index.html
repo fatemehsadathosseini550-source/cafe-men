@@ -2,38 +2,210 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>کافه لومیر</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>کافه لومیر - منوی واقعیت افزوده</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastinfar/vazirmatn-font@v33.003/Vazirmatn-font-face.css">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
-        body { font-family: sans-serif; background: #1a1a1a; color: #fff; text-align: center; padding: 20px; margin: 0; }
-        h1 { color: #d4af37; margin-bottom: 20px; }
-        .card { background: #262626; border-radius: 16px; padding: 15px; margin: 0 auto 30px auto; max-width: 400px; border: 1px solid #444; }
-        .card img { width: 100%; border-radius: 12px; height: 200px; object-fit: cover; }
-        model-viewer { width: 100%; height: 300px; margin-top: 10px; }
-        .price { color: #d4af37; font-weight: bold; font-size: 1.2rem; margin: 10px 0; }
-        .btn-ar { background: #d4af37; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            direction: rtl;
+            background: linear-gradient(rgba(10, 10, 10, 0.88), rgba(15, 15, 15, 0.92)),
+                        url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        header { text-align: center; padding: 35px 20px 20px 20px; }
+        header h1 { font-size: 2.2rem; color: #d4af37; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        header p { color: #bbb; font-size: 0.95rem; }
+
+        main { max-width: 650px; margin: 0 auto; padding: 15px; }
+
+        /* منوبار دسته‌بندی‌ها */
+        .filter-buttons { 
+            display: flex; 
+            justify-content: center; 
+            gap: 8px; 
+            margin-bottom: 25px; 
+            flex-wrap: wrap; 
+        }
+        .filter-btn {
+            background: rgba(30, 30, 30, 0.75);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: #ccc;
+            padding: 8px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 0.95rem;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: #d4af37;
+            color: #121212;
+            font-weight: bold;
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* کارت‌های منو */
+        .items-grid { display: flex; flex-direction: column; gap: 30px; }
+        .menu-card {
+            background: rgba(25, 25, 25, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .card-image-box img { width: 100%; height: 220px; object-fit: cover; display: block; }
+        
+        .model-box {
+            width: 100%;
+            height: 320px;
+            background: rgba(10, 10, 10, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+        model-viewer { width: 100%; height: 100%; }
+
+        /* جعبه دکمه‌های AR و دوربین */
+        .btn-box {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            position: absolute;
+            bottom: 12px;
+            left: 0;
+            right: 0;
+            padding: 0 10px;
+            flex-wrap: wrap;
+        }
+
+        .custom-ar-button {
+            background: #d4af37;
+            color: #121212;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            font-size: 0.85rem;
+        }
+
+        .webcam-btn {
+            background: rgba(40, 40, 40, 0.85);
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            font-size: 0.85rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .card-info { padding: 20px; text-align: right; }
+        .card-info h2 { font-size: 1.35rem; color: #fff; margin-bottom: 6px; }
+        .card-info .price { color: #d4af37; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; }
+        .card-info .desc { color: #aaa; font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+        .card-info .tip { color: #888; font-size: 0.8rem; }
+
+        /* مودال دوربین اختصاصی برای همه گوشی‌ها بدون نیاز به برنامه */
+        #camera-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 99999;
+        }
+        #camera-feed {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0; left: 0;
+        }
+        #interactive-viewer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90vw;
+            height: 65vh;
+            --poster-color: transparent;
+            background: transparent;
+            z-index: 10;
+        }
+        .close-cam-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            border: 1px solid #d4af37;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 0.95rem;
+            z-index: 20;
+            cursor: pointer;
+        }
+        .cam-guide {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: #d4af37;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            z-index: 20;
+            white-space: nowrap;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            pointer-events: none;
+        }
+
+        /* فوتر */
+        .cafe-footer {
+            margin-top: 50px;
+            background: rgba(15, 15, 15, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: #ddd;
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .cafe-footer h3 { color: #d4af37; margin-bottom: 10px; font-size: 1.2rem; }
+        .footer-info { margin: 15px 0; font-size: 0.9rem; line-height: 2; color: #bbb; }
+        .copyright { font-size: 0.8rem; color: #666; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
     </style>
 </head>
 <body>
-    <h1>☕ کافه لومیر</h1>
 
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80">
-        <h2>کافه لاته ویژه</h2>
-        <div class="price">۸۵,۰۰۰ تومان</div>
-        <model-viewer src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate>
-            <button slot="ar-button" class="btn-ar">🚀 مشاهده AR</button>
-        </model-viewer>
-    </div>
+    <header>
+        <h1>☕ کافه لومیر</h1>
+        <p>مشاهده ۳D و واقعیت افزوده نوشیدنی‌ها و دسرها روی میز شما</p>
+    </header>
 
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80">
-        <h2>کیک شکلاتی مخصوص</h2>
-        <div class="price">۱۱۰,۰۰۰ تومان</div>
-        <model-viewer src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate>
-            <button slot="ar-button" class="btn-ar">🚀 مشاهده AR</button>
-        </model-viewer>
-    </div>
-</body>
-</html>
+    <main id="menu-container"></main>
+
+    <!-- صفحه دوربین زنده (برای گوشی‌های بدون سرویس واقعیت افزوده) -->
+    <div id="camera-modal">
+        <video id="camera-feed" autoplay playsinline muted></video>
+        <button class="close-cam-btn" onclick="closeCameraView()">✕ خروج از دوربین</button>
+        <model-viewer id="interactive-viewer" camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+        <div class="cam-guide">مدل را با انگشت بچرخانید و 
