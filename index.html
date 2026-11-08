@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>کافه لومیر - منوی واقعیت افزوده</title>
+    <title>کافه لومیر</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastinfar/vazirmatn-font@v33.003/Vazirmatn-font-face.css">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
@@ -21,12 +21,12 @@
         }
 
         header { text-align: center; padding: 35px 20px 20px 20px; }
-        header h1 { font-size: 2.2rem; color: #d4af37; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        header h1 { font-size: 2.2rem; color: #d4af37; margin-bottom: 8px; }
         header p { color: #bbb; font-size: 0.95rem; }
 
         main { max-width: 650px; margin: 0 auto; padding: 15px; }
 
-        /* منوبار دسته‌بندی‌ها */
+        /* منوبار فیلترها */
         .filter-buttons { 
             display: flex; 
             justify-content: center; 
@@ -46,7 +46,7 @@
             backdrop-filter: blur(5px);
             transition: all 0.3s ease;
         }
-        .filter-btn:hover, .filter-btn.active {
+        .filter-btn.active {
             background: #d4af37;
             color: #121212;
             font-weight: bold;
@@ -54,7 +54,7 @@
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
         }
 
-        /* کارت‌های منو */
+        /* کارت‌ها */
         .items-grid { display: flex; flex-direction: column; gap: 30px; }
         .menu-card {
             background: rgba(25, 25, 25, 0.85);
@@ -63,6 +63,7 @@
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
         }
 
         .card-image-box img { width: 100%; height: 220px; object-fit: cover; display: block; }
@@ -72,64 +73,49 @@
             height: 320px;
             background: rgba(10, 10, 10, 0.7);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
         }
-        model-viewer { width: 100%; height: 100%; }
-
-        /* جعبه دکمه‌های AR و دوربین */
-        .btn-box {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            position: absolute;
-            bottom: 12px;
-            left: 0;
-            right: 0;
-            padding: 0 10px;
-            flex-wrap: wrap;
+        model-viewer { 
+            width: 100%; 
+            height: 100%; 
+            --poster-color: transparent;
         }
 
-        .custom-ar-button {
-            background: #d4af37;
+        /* دکمه اختصاصی هوشمند AR */
+        .smart-ar-btn {
+            background: linear-gradient(135deg, #d4af37, #aa820a);
             color: #121212;
             border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 12px 24px;
+            border-radius: 25px;
             font-family: 'Vazirmatn', sans-serif;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            font-size: 0.85rem;
-        }
-
-        .webcam-btn {
-            background: rgba(40, 40, 40, 0.85);
-            color: #d4af37;
-            border: 1px solid #d4af37;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-family: 'Vazirmatn', sans-serif;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            font-size: 0.85rem;
-            backdrop-filter: blur(5px);
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+            font-size: 0.95rem;
+            white-space: nowrap;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .card-info { padding: 20px; text-align: right; }
         .card-info h2 { font-size: 1.35rem; color: #fff; margin-bottom: 6px; }
         .card-info .price { color: #d4af37; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; }
-        .card-info .desc { color: #aaa; font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
-        .card-info .tip { color: #888; font-size: 0.8rem; }
+        .card-info .desc { color: #aaa; font-size: 0.9rem; line-height: 1.6; }
 
-        /* مودال دوربین اختصاصی برای همه گوشی‌ها بدون نیاز به برنامه */
+        /* لایه دوربین زنده (برای دستگاه‌های بدون AR) */
         #camera-modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000;
-            z-index: 99999;
+            z-index: 999999;
         }
         #camera-feed {
             width: 100%;
@@ -144,42 +130,39 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 90vw;
-            height: 65vh;
+            height: 60vh;
             --poster-color: transparent;
             background: transparent;
             z-index: 10;
         }
-        .close-cam-btn {
+        .cam-controls {
             position: absolute;
-            top: 20px;
+            top: 25px;
             right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            border: 1px solid #d4af37;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-family: 'Vazirmatn', sans-serif;
-            font-size: 0.95rem;
+            left: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             z-index: 20;
+        }
+        .cam-hint {
+            background: rgba(0,0,0,0.6);
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            color: #d4af37;
+        }
+        .close-cam-btn {
+            background: rgba(200, 30, 30, 0.85);
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 0.9rem;
             cursor: pointer;
         }
-        .cam-guide {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: #d4af37;
-            padding: 10px 22px;
-            border-radius: 25px;
-            font-size: 0.85rem;
-            z-index: 20;
-            white-space: nowrap;
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            pointer-events: none;
-        }
 
-        /* فوتر */
         .cafe-footer {
             margin-top: 50px;
             background: rgba(15, 15, 15, 0.85);
@@ -198,138 +181,192 @@
 
     <header>
         <h1>☕ کافه لومیر</h1>
-        <p>مشاهده ۳D و واقعیت افزوده نوشیدنی‌ها و دسرها روی میز شما</p>
+        <p>مشاهده سه‌بعدی و واقعیت افزوده روی میز شما</p>
     </header>
 
-    <main id="menu-container"></main>
+    <main>
+        <!-- فیلترها -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterItems('all', this)">همه</button>
+            <button class="filter-btn" onclick="filterItems('hot', this)">☕ نوشیدنی گرم</button>
+            <button class="filter-btn" onclick="filterItems('cold', this)">🧊 نوشیدنی سرد</button>
+            <button class="filter-btn" onclick="filterItems('dessert', this)">🍰 دسرها</button>
+        </div>
 
-    <!-- صفحه دوربین زنده (برای گوشی‌های بدون سرویس واقعیت افزوده) -->
+        <div class="items-grid">
+            <!-- آیتم ۱ -->
+            <div class="menu-card" data-category="hot">
+                <div class="card-image-box">
+                    <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80" alt="کافه لاته ویژه">
+                </div>
+                <div class="model-box">
+                    <model-viewer 
+                        id="mv-1"
+                        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+                        ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+                        ar 
+                        ar-modes="quick-look scene-viewer webxr" 
+                        ar-scale="auto"
+                        camera-controls 
+                        auto-rotate 
+                        shadow-intensity="1">
+                        <button slot="ar-button" class="smart-ar-btn" onclick="handleSmartAR(event, 'mv-1', 'https://modelviewer.dev/shared-assets/models/Astronaut.glb')">
+                            ✨ مشاهده روی میز شما (AR)
+                        </button>
+                    </model-viewer>
+                </div>
+                <div class="card-info">
+                    <h2>کافه لاته ویژه</h2>
+                    <div class="price">۸۵,۰۰۰ تومان</div>
+                    <p class="desc">ترکیبی بی‌نظیر از اسپرسو تازه و شیر بخاردهی شده با فوم ابریشمی مخملی.</p>
+                </div>
+            </div>
+
+            <!-- آیتم ۲ -->
+            <div class="menu-card" data-category="hot">
+                <div class="card-image-box">
+                    <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80" alt="اسپرسو دبل آرت">
+                </div>
+                <div class="model-box">
+                    <model-viewer 
+                        id="mv-2"
+                        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+                        ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+                        ar 
+                        ar-modes="quick-look scene-viewer webxr" 
+                        ar-scale="auto"
+                        camera-controls 
+                        auto-rotate 
+                        shadow-intensity="1">
+                        <button slot="ar-button" class="smart-ar-btn" onclick="handleSmartAR(event, 'mv-2', 'https://modelviewer.dev/shared-assets/models/Astronaut.glb')">
+                            ✨ مشاهده روی میز شما (AR)
+                        </button>
+                    </model-viewer>
+                </div>
+                <div class="card-info">
+                    <h2>اسپرسو دبل آرت</h2>
+                    <div class="price">۶۵,۰۰۰ تومان</div>
+                    <p class="desc">عصاره‌گیری ۱۰۰٪ عربیکا با کرمای طلایی و طعم‌یادهای شکلاتی و آجیلی.</p>
+                </div>
+            </div>
+
+            <!-- آیتم ۳ -->
+            <div class="menu-card" data-category="cold">
+                <div class="card-image-box">
+                    <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=800&q=80" alt="آیس لاته کارامل">
+                </div>
+                <div class="model-box">
+                    <model-viewer 
+                        id="mv-3"
+                        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+                        ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+                        ar 
+                        ar-modes="quick-look scene-viewer webxr" 
+                        ar-scale="auto"
+                        camera-controls 
+                        auto-rotate 
+                        shadow-intensity="1">
+                        <button slot="ar-button" class="smart-ar-btn" onclick="handleSmartAR(event, 'mv-3', 'https://modelviewer.dev/shared-assets/models/Astronaut.glb')">
+                            ✨ مشاهده روی میز شما (AR)
+                        </button>
+                    </model-viewer>
+                </div>
+                <div class="card-info">
+                    <h2>آیس لاته کارامل</h2>
+                    <div class="price">۹۰,۰۰۰ تومان</div>
+                    <p class="desc">اسپرسوی خنک به همراه شیر پرچرب و سس کارامل دست‌ساز با تکه‌های یخ.</p>
+                </div>
+            </div>
+
+            <!-- آیتم ۴ -->
+            <div class="menu-card" data-category="dessert">
+                <div class="card-image-box">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80" alt="کیک شکلاتی بلژیکی">
+                </div>
+                <div class="model-box">
+                    <model-viewer 
+                        id="mv-4"
+                        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+                        ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+                        ar 
+                        ar-modes="quick-look scene-viewer webxr" 
+                        ar-scale="auto"
+                        camera-controls 
+                        auto-rotate 
+                        shadow-intensity="1">
+                        <button slot="ar-button" class="smart-ar-btn" onclick="handleSmartAR(event, 'mv-4', 'https://modelviewer.dev/shared-assets/models/Astronaut.glb')">
+                            ✨ مشاهده روی میز شما (AR)
+                        </button>
+                    </model-viewer>
+                </div>
+                <div class="card-info">
+                    <h2>کیک شکلاتی بلژیکی</h2>
+                    <div class="price">۱۱۰,۰۰۰ تومان</div>
+                    <p class="desc">کیک اسفنجی تیره همراه با لایه‌های متراکم گاناش و بافت لطیف و غنی.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="cafe-footer">
+            <h3>☕ کافه لومیر</h3>
+            <div class="footer-info">
+                📍 خیابان ولیعصر، نرسیده به میدان ونک، نبش کوچه ششم<br>
+                📞 ۰۲۱-۸۸۸۸۴۳۲۱<br>
+                ⏰ همه‌روزه از ساعت ۸:۳۰ صبح الی ۲۳:۳۰ شب
+            </div>
+            <div class="copyright">طراحی شده با تکنولوژی منوی سه‌بعدی و واقعیت افزوده</div>
+        </footer>
+    </main>
+
+    <!-- لایه شبیه‌ساز AR مستقیم با دوربین (برای گوشی‌های بدون ساپورت) -->
     <div id="camera-modal">
+        <div class="cam-controls">
+            <span class="cam-hint">مدل را با انگشت روی میز تنظیم کنید</span>
+            <button class="close-cam-btn" onclick="closeCameraView()">✕ بستن</button>
+        </div>
         <video id="camera-feed" autoplay playsinline muted></video>
-        <button class="close-cam-btn" onclick="closeCameraView()">✕ خروج از دوربین</button>
-        <model-viewer id="interactive-viewer" camera-controls auto-rotate shadow-intensity="1"></model-viewer>
-        <div class="cam-guide">مدل را با انگشت بچرخانید و روی میز تنظیم کنید</div>
+        <model-viewer id="interactive-viewer" camera-controls touch-action="pan-y" auto-rotate shadow-intensity="1"></model-viewer>
     </div>
 
     <script>
-        // لیست محصولات کامل
-        const menuItems = [
-            {
-                id: 1,
-                category: "hot",
-                name: "کافه لاته ویژه",
-                price: "۸۵,۰۰۰ تومان",
-                description: "ترکیبی بی‌نظیر از اسپرسو تازه و شیر بخاردهی شده با فوم ابریشمی مخملی.",
-                image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80",
-                model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-                iosModel: "https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
-            },
-            {
-                id: 2,
-                category: "hot",
-                name: "اسپرسو دبل آرت",
-                price: "۶۵,۰۰۰ تومان",
-                description: "عصاره‌گیری ۱۰۰٪ عربیکا با کرمای طلایی و طعم‌یادهای شکلاتی و آجیلی.",
-                image: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80",
-                model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-                iosModel: "https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
-            },
-            {
-                id: 3,
-                category: "cold",
-                name: "آیس لاته کارامل",
-                price: "۹۰,۰۰۰ تومان",
-                description: "اسپرسوی خنک به همراه شیر پرچرب و سس کارامل دست‌ساز با تکه‌های یخ.",
-                image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=800&q=80",
-                model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-                iosModel: "https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
-            },
-            {
-                id: 4,
-                category: "dessert",
-                name: "کیک شکلاتی بلژیکی",
-                price: "۱۱۰,۰۰۰ تومان",
-                description: "کیک اسفنجی تیره همراه با لایه‌های متراکم گاناش و بافت لطیف و غنی.",
-                image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80",
-                model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-                iosModel: "https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
-            }
-        ];
+        // فیلتر کردن هوشمند بدون تداخل با مدل‌ها
+        function filterItems(category, button) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
 
-        // رندر کردن منو به همراه تب‌ها
-        function renderMenu(filter = 'all') {
-            const container = document.getElementById('menu-container');
-            const filteredItems = filter === 'all' 
-                ? menuItems 
-                : menuItems.filter(item => item.category === filter);
-
-            let htmlContent = `
-                <div class="filter-buttons">
-                    <button class="filter-btn ${filter === 'all' ? 'active' : ''}" onclick="filterCategory('all')">همه</button>
-                    <button class="filter-btn ${filter === 'hot' ? 'active' : ''}" onclick="filterCategory('hot')">☕ نوشیدنی گرم</button>
-                    <button class="filter-btn ${filter === 'cold' ? 'active' : ''}" onclick="filterCategory('cold')">🧊 نوشیدنی سرد</button>
-                    <button class="filter-btn ${filter === 'dessert' ? 'active' : ''}" onclick="filterCategory('dessert')">🍰 دسرها</button>
-                </div>
-                <div class="items-grid">
-            `;
-
-            filteredItems.forEach(item => {
-                htmlContent += `
-                    <div class="menu-card">
-                        <div class="card-image-box">
-                            <img src="${item.image}" alt="${item.name}">
-                        </div>
-                        <div class="model-box">
-                            <model-viewer 
-                                src="${item.model}" 
-                                ios-src="${item.iosModel}"
-                                ar 
-                                ar-modes="scene-viewer quick-look webxr" 
-                                ar-scale="auto"
-                                camera-controls 
-                                auto-rotate 
-                                shadow-intensity="1">
-                                <div class="btn-box">
-                                    <button slot="ar-button" class="custom-ar-button">
-                                        🚀 AR پیشرفته
-                                    </button>
-                                    <button type="button" class="webcam-btn" onclick="openLiveCamera('${item.model}')">
-                                        📷 نمایش با دوربین
-                                    </button>
-                                </div>
-                            </model-viewer>
-                        </div>
-                        <div class="card-info">
-                            <h2>${item.name}</h2>
-                            <div class="price">${item.price}</div>
-                            <p class="desc">${item.description}</p>
-                            <p class="tip">💡 مدل را ۳۶۰ درجه بچرخانید یا دکمه‌های دوربین را لمس کنید.</p>
-                        </div>
-                    </div>
-                `;
+            const cards = document.querySelectorAll('.menu-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
             });
-
-            htmlContent += `
-                </div>
-                <footer class="cafe-footer">
-                    <h3>☕ کافه لومیر</h3>
-                    <div class="footer-info">
-                        📍 خیابان ولیعصر، نرسیده به میدان ونک، نبش کوچه ششم<br>
-                        📞 ۰۲۱-۸۸۸۸۴۳۲۱<br>
-                        ⏰ همه‌روزه از ساعت ۸:۳۰ صبح الی ۲۳:۳۰ شب
-                    </div>
-                    <div class="copyright">طراحی شده با تکنولوژی منوی سه‌بعدی و واقعیت افزوده</div>
-                </footer>
-            `;
-
-            container.innerHTML = htmlContent;
         }
 
-        function filterCategory(category) {
-            renderMenu(category);
+        // سیستم تشخیص هوشمند AR و هدایت کاربر
+        function handleSmartAR(event, viewerId, modelUrl) {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const viewer = document.getElementById(viewerId);
+
+            if (isIOS) {
+                // آیفون: اجازه بده خود رویداد پیش‌فرض سافاری اجرا شود
+                return;
+            }
+
+            // بررسی ساپورت AR در اندروید
+            if (viewer.canActivateAR) {
+                // اگر اندروید از ARCore پشتیبانی کند، خودش باز می‌شود
+                return;
+            } else {
+                // اگر پشتیبانی نکند، بلافاصله دوربین زنده را بدون نیاز به دانلود چیزی باز کن
+                event.preventDefault();
+                event.stopPropagation();
+                openLiveCamera(modelUrl);
+            }
         }
 
-        // عملکرد دوربین زنده مستقیم در مرورگر (بدون نیاز به ARCore یا هیچ برنامه دیگری)
+        // عملکرد دوربین زنده درون مرورگر
         let activeStream = null;
 
         async function openLiveCamera(modelUrl) {
@@ -346,7 +383,7 @@
                 viewer.setAttribute('src', modelUrl);
                 modal.style.display = 'block';
             } catch (err) {
-                alert('لطفاً دسترسی به دوربین را در مرورگر تأیید کنید.');
+                alert('برای مشاهده روی میز، لطفاً اجازه دسترسی به دوربین را در مرورگر تأیید کنید.');
             }
         }
 
@@ -359,9 +396,6 @@
             video.srcObject = null;
             modal.style.display = 'none';
         }
-
-        // بارگذاری اولیه
-        renderMenu('all');
     </script>
 </body>
 </html>
