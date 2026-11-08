@@ -9,7 +9,7 @@ const menuItems = [
         price: "۸۵,۰۰۰ تومان",
         description: "ترکیبی بی‌نظیر از اسپرسو تازه و شیر بخاردهی شده با فوم ابریشمی.",
         image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80",
-        model: "Astronaut.glb"
+        model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
     },
     {
         id: 2,
@@ -18,7 +18,7 @@ const menuItems = [
         price: "۶۵,۰۰۰ تومان",
         description: "قهوه خالص، غلیظ و پرانرژی با کرمای غنی و طعمی ماندگار.",
         image: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80",
-        model: "Astronaut.glb"
+        model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
     },
     {
         id: 3,
@@ -27,7 +27,7 @@ const menuItems = [
         price: "۹۰,۰۰۰ تومان",
         description: "ترکیب خنک و دلپذیر اسپرسو، شیر سرد و یخ، ایده‌آل برای روزهای گرم.",
         image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=800&q=80",
-        model: "Astronaut.glb"
+        model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
     },
     {
         id: 4,
@@ -36,7 +36,7 @@ const menuItems = [
         price: "۱۱۰,۰۰۰ تومان",
         description: "کیک اسفنجی شکلاتی با لایه‌های گاناش و بافتی بسیار نرم و لذیذ.",
         image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80",
-        model: "Astronaut.glb"
+        model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
     }
 ];
 
@@ -70,7 +70,7 @@ function renderMenu(filter = 'all') {
                         auto-rotate 
                         shadow-intensity="1">
                         <button slot="ar-button" class="custom-ar-button">
-                            🚀 نمایش در محیط شما (AR)
+                            🚀 نمایش واقعیت افزوده (AR)
                         </button>
                     </model-viewer>
                 </div>
@@ -89,15 +89,11 @@ function renderMenu(filter = 'all') {
         <footer class="cafe-footer">
             <div class="footer-content">
                 <h3>☕ کافه لومیر | Lumiere Cafe</h3>
-                <p>محیطی آرام، دنج و مدرن برای لحظات خاطر‌ه‌انگیز شما</p>
+                <p>محیطی آرام و مدرن برای لحظات شما</p>
                 <div class="footer-info">
-                    <p>📍 آدرس: تهران، خیابان ولیعصر، نرسیده به میدان ونک</p>
-                    <p>📞 تلفن سفارش و رزرو: ۰۲۱-۸۸۸۸۸۸۸۸</p>
-                    <p>⏰ ساعت کاری: همه روزه از ساعت ۸:۰۰ صبح الی ۲۳:۳۰</p>
+                    <p>📍 آدرس: تهران، خیابان ولیعصر</p>
+                    <p>📞 تلفن سفارش: ۰۲۱-۸۸۸۸۸۸۸۸</p>
                 </div>
-            </div>
-            <div class="footer-copy">
-                <p>تمامی حقوق محفوظ است © منوی هوشمند واقعیت افزوده</p>
             </div>
         </footer>
     `;
