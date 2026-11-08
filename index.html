@@ -3,144 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>کافه لومیر - منوی واقعیت افزوده</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastinfar/vazirmatn-font@v33.003/Vazirmatn-font-face.css">
+    <title>کافه لومیر</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Vazirmatn', sans-serif;
-            direction: rtl;
-            background: linear-gradient(rgba(10, 10, 10, 0.85), rgba(15, 15, 15, 0.9)), 
-                        url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1600&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #fff;
-            min-height: 100vh;
-        }
-        header { text-align: center; padding: 40px 20px 20px 20px; }
-        header h1 { font-size: 2.2rem; color: #d4af37; margin-bottom: 8px; }
-        header p { color: #bbb; font-size: 1rem; }
-        main { max-width: 650px; margin: 0 auto; padding: 15px; }
-        .items-grid { display: flex; flex-direction: column; gap: 30px; }
-        .menu-card {
-            background: rgba(25, 25, 25, 0.85);
-            border: 1px solid rgba(212, 175, 55, 0.35);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            backdrop-filter: blur(10px);
-        }
-        .card-image-box img { width: 100%; height: 220px; object-fit: cover; display: block; }
-        .model-box {
-            width: 100%;
-            height: 320px;
-            background: rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-        model-viewer { width: 100%; height: 100%; }
-        .custom-ar-button {
-            background: #d4af37;
-            color: #121212;
-            border: none;
-            padding: 10px 22px;
-            border-radius: 25px;
-            font-family: 'Vazirmatn', sans-serif;
-            font-weight: bold;
-            cursor: pointer;
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        .card-info { padding: 20px; text-align: right; }
-        .card-info h2 { font-size: 1.35rem; color: #fff; margin-bottom: 8px; }
-        .card-info .price { color: #d4af37; font-size: 1.15rem; font-weight: bold; margin-bottom: 10px; }
-        .card-info .desc { color: #aaa; font-size: 0.9rem; line-height: 1.6; }
-        .cafe-footer {
-            margin-top: 50px;
-            background: rgba(15, 15, 15, 0.9);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            color: #ddd;
-            padding: 30px 20px;
-            border-radius: 20px;
-            text-align: center;
-        }
-        .cafe-footer h3 { color: #d4af37; margin-bottom: 10px; }
-        .footer-info { margin: 15px 0; font-size: 0.9rem; line-height: 2; color: #bbb; }
+        body { font-family: sans-serif; background: #1a1a1a; color: #fff; text-align: center; padding: 20px; margin: 0; }
+        h1 { color: #d4af37; margin-bottom: 20px; }
+        .card { background: #262626; border-radius: 16px; padding: 15px; margin: 0 auto 30px auto; max-width: 400px; border: 1px solid #444; }
+        .card img { width: 100%; border-radius: 12px; height: 200px; object-fit: cover; }
+        model-viewer { width: 100%; height: 300px; margin-top: 10px; }
+        .price { color: #d4af37; font-weight: bold; font-size: 1.2rem; margin: 10px 0; }
+        .btn-ar { background: #d4af37; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
+    <h1>☕ کافه لومیر</h1>
 
-    <header>
-        <h1>☕ کافه لومیر</h1>
-        <p>مشاهده ۳۶۰ درجه و واقعیت افزوده منو</p>
-    </header>
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80">
+        <h2>کافه لاته ویژه</h2>
+        <div class="price">۸۵,۰۰۰ تومان</div>
+        <model-viewer src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate>
+            <button slot="ar-button" class="btn-ar">🚀 مشاهده AR</button>
+        </model-viewer>
+    </div>
 
-    <main>
-        <div class="items-grid">
-            
-            <div class="menu-card">
-                <div class="card-image-box">
-                    <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80" alt="کافه لاته ویژه">
-                </div>
-                <div class="model-box">
-                    <model-viewer 
-                        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
-                        ar 
-                        ar-modes="webxr scene-viewer quick-look" 
-                        camera-controls 
-                        auto-rotate 
-                        shadow-intensity="1">
-                        <button slot="ar-button" class="custom-ar-button">
-                            🚀 مشاهده در محیط شما (AR)
-                        </button>
-                    </model-viewer>
-                </div>
-                <div class="card-info">
-                    <h2>کافه لاته ویژه</h2>
-                    <div class="price">۸۵,۰۰۰ تومان</div>
-                    <p class="desc">ترکیبی بی‌نظیر از اسپرسو تازه و شیر بخاردهی شده با فوم ابریشمی مخملی.</p>
-                </div>
-            </div>
-
-            <div class="menu-card">
-                <div class="card-image-box">
-                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80" alt="کیک شکلاتی مخصوص">
-                </div>
-                <div class="model-box">
-                    <model-viewer 
-                        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
-                        ar 
-                        ar-modes="webxr scene-viewer quick-look" 
-                        camera-controls 
-                        auto-rotate 
-                        shadow-intensity="1">
-                        <button slot="ar-button" class="custom-ar-button">
-                            🚀 مشاهده در محیط شما (AR)
-                        </button>
-                    </model-viewer>
-                </div>
-                <div class="card-info">
-                    <h2>کیک شکلاتی مخصوص</h2>
-                    <div class="price">۱۱۰,۰۰۰ تومان</div>
-                    <p class="desc">کیک اسفنجی شکلاتی با لایه‌های گاناش بلژیکی و بافتی بسیار نرم و لذیذ.</p>
-                </div>
-            </div>
-
-        </div>
-
-        <footer class="cafe-footer">
-            <h3>☕ کافه لومیر</h3>
-            <p>محیطی آرام و مدرن برای ثبت زیباترین خاطرات شما</p>
-            <div class="footer-info">
-                <p>📍 آدرس: تهران، خیابان ولیعصر</p>
-                <p>📞 تلفن سفارش و رزرو: ۰۲۱-۸۸۸۸۸۸۸۸</p>
-            </div>
-        </footer>
-    </main>
-
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80">
+        <h2>کیک شکلاتی مخصوص</h2>
+        <div class="price">۱۱۰,۰۰۰ تومان</div>
+        <model-viewer src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate>
+            <button slot="ar-button" class="btn-ar">🚀 مشاهده AR</button>
+        </model-viewer>
+    </div>
 </body>
 </html>
