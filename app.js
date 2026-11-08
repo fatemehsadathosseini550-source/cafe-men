@@ -40,7 +40,6 @@ const menuItems = [
     }
 ];
 
-// تابع برای رندر کردن منو و دکمه‌ها
 function renderMenu(filter = 'all') {
     menuContainer.innerHTML = '';
 
@@ -60,18 +59,24 @@ function renderMenu(filter = 'all') {
         htmlContent += `
             <div class="menu-card">
                 <div class="card-image-box">
-                    <img src="${item.image}" alt="${item.name}">
+                    <img src="${item.image}" alt="${item.name}" loading="lazy">
                 </div>
                 <div class="model-box">
                     <model-viewer 
                         src="${item.model}" 
+                        poster="${item.image}"
+                        loading="lazy"
+                        reveal="interaction"
                         ar 
                         ar-modes="webxr scene-viewer quick-look" 
                         camera-controls 
                         auto-rotate 
                         shadow-intensity="1">
+                        <button slot="poster" class="load-model-btn">
+                            👆 لمس برای بارگذاری مدل ۳ بعدی
+                        </button>
                         <button slot="ar-button" class="custom-ar-button">
-                            🚀 نمایش سه‌بعدی و واقعیت افزوده (AR)
+                            🚀 نمایش در محیط شما (AR)
                         </button>
                     </model-viewer>
                 </div>
@@ -86,12 +91,11 @@ function renderMenu(filter = 'all') {
 
     htmlContent += `</div>`;
 
-    // بخش فوتر پایین صفحه
     htmlContent += `
         <footer class="cafe-footer">
             <div class="footer-content">
                 <h3>☕ کافه لومیر | Lumiere Cafe</h3>
-                <p>محیطی آرام، دنج و مدرن برای لحظات خاطره‌انگیز شما</p>
+                <p>محیطی آرام، دنج و مدرن برای لحظات خاطر‌ه‌انگیز شما</p>
                 <div class="footer-info">
                     <p>📍 آدرس: تهران، خیابان ولیعصر، نرسیده به میدان ونک</p>
                     <p>📞 تلفن سفارش و رزرو: ۰۲۱-۸۸۸۸۸۸۸۸</p>
@@ -111,5 +115,4 @@ window.filterCategory = function(category) {
     renderMenu(category);
 };
 
-// اجرای اولیه
 renderMenu('all');
