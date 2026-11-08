@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>کافه لومیر</title>
+    <title>کافه لومیر | منوی واقعیت افزوده</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastinfar/vazirmatn-font@v33.003/Vazirmatn-font-face.css">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: 'Vazirmatn', sans-serif;
             direction: rtl;
-            background: linear-gradient(rgba(10, 10, 10, 0.88), rgba(15, 15, 15, 0.92)),
+            background: linear-gradient(rgba(12, 12, 12, 0.9), rgba(15, 15, 15, 0.94)),
                         url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1600&q=80');
             background-size: cover;
             background-position: center;
@@ -20,8 +20,8 @@
             min-height: 100vh;
         }
 
-        header { text-align: center; padding: 35px 20px 20px 20px; }
-        header h1 { font-size: 2.2rem; color: #d4af37; margin-bottom: 8px; }
+        header { text-align: center; padding: 40px 20px 25px 20px; }
+        header h1 { font-size: 2.3rem; color: #d4af37; margin-bottom: 6px; letter-spacing: -0.5px; }
         header p { color: #bbb; font-size: 0.95rem; }
 
         main { max-width: 650px; margin: 0 auto; padding: 15px; }
@@ -30,48 +30,48 @@
         .filter-buttons { 
             display: flex; 
             justify-content: center; 
-            gap: 8px; 
-            margin-bottom: 25px; 
+            gap: 10px; 
+            margin-bottom: 30px; 
             flex-wrap: wrap; 
         }
         .filter-btn {
-            background: rgba(30, 30, 30, 0.75);
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            color: #ccc;
-            padding: 8px 18px;
-            border-radius: 25px;
+            background: rgba(35, 35, 35, 0.7);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            color: #ddd;
+            padding: 9px 20px;
+            border-radius: 30px;
             cursor: pointer;
             font-family: 'Vazirmatn', sans-serif;
             font-size: 0.95rem;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
             transition: all 0.3s ease;
         }
         .filter-btn.active {
-            background: #d4af37;
-            color: #121212;
-            font-weight: bold;
+            background: linear-gradient(135deg, #d4af37, #aa8012);
+            color: #111;
+            font-weight: 700;
             border-color: #d4af37;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35);
         }
 
-        /* کارت‌ها */
-        .items-grid { display: flex; flex-direction: column; gap: 30px; }
+        /* کارت‌های منو */
+        .items-grid { display: flex; flex-direction: column; gap: 32px; }
         .menu-card {
-            background: rgba(25, 25, 25, 0.85);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 20px;
+            background: rgba(24, 24, 24, 0.88);
+            border: 1px solid rgba(212, 175, 55, 0.28);
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
         }
 
-        .card-image-box img { width: 100%; height: 220px; object-fit: cover; display: block; }
+        .card-image-box img { width: 100%; height: 230px; object-fit: cover; display: block; }
         
         .model-box {
             width: 100%;
-            height: 320px;
-            background: rgba(10, 10, 10, 0.7);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            height: 330px;
+            background: radial-gradient(circle at center, rgba(35,35,35,0.6) 0%, rgba(10,10,10,0.9) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             position: relative;
         }
         model-viewer { 
@@ -80,30 +80,32 @@
             --poster-color: transparent;
         }
 
-        /* دکمه AR */
         .ar-trigger-btn {
             background: linear-gradient(135deg, #d4af37, #b8860b);
             color: #121212;
             border: none;
-            padding: 12px 24px;
-            border-radius: 30px;
+            padding: 13px 26px;
+            border-radius: 35px;
             font-family: 'Vazirmatn', sans-serif;
-            font-weight: bold;
+            font-weight: 800;
             cursor: pointer;
             position: absolute;
-            bottom: 15px;
+            bottom: 18px;
             left: 50%;
             transform: translateX(-50%);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.7);
             font-size: 0.95rem;
             white-space: nowrap;
             z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .card-info { padding: 20px; text-align: right; }
-        .card-info h2 { font-size: 1.35rem; color: #fff; margin-bottom: 6px; }
-        .card-info .price { color: #d4af37; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; }
-        .card-info .desc { color: #aaa; font-size: 0.9rem; line-height: 1.6; }
+        .card-info { padding: 22px; text-align: right; }
+        .card-info h2 { font-size: 1.4rem; color: #fff; margin-bottom: 6px; }
+        .card-info .price { color: #d4af37; font-size: 1.25rem; font-weight: bold; margin-bottom: 10px; }
+        .card-info .desc { color: #aaa; font-size: 0.92rem; line-height: 1.7; }
 
         /* ==================== رابط کاربری کامل شبیه به آیفون (Quick Look UI) ==================== */
         #ios-ar-view {
@@ -123,61 +125,66 @@
             z-index: 1;
         }
 
-        /* لایه رتیکل و اسکن سطح مثل ARKit اپل */
-        .reticle-container {
+        /* لایه سطح هوشمند و سایه میز */
+        .ar-stage {
             position: absolute;
             top: 60%;
             left: 50%;
-            transform: translate(-50%, -50%) rotateX(60deg);
-            width: 200px;
-            height: 200px;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
             pointer-events: none;
             z-index: 2;
         }
-        .reticle-ring {
-            width: 100%;
-            height: 100%;
-            border: 2px dashed rgba(255, 255, 255, 0.6);
+        .table-shadow {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px;
+            height: 70px;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%;
-            animation: ringPulse 2.5s infinite linear;
         }
-        .reticle-shadow {
+        .scanning-grid {
             position: absolute;
             top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 160px;
-            height: 160px;
-            background: radial-gradient(circle, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 70%);
+            transform: translate(-50%, -50%) rotateX(65deg);
+            width: 260px;
+            height: 260px;
+            border: 2px dashed rgba(212, 175, 55, 0.7);
             border-radius: 50%;
+            animation: pulseGrid 2.2s infinite ease-in-out;
         }
 
-        @keyframes ringPulse {
-            0% { transform: scale(0.9); opacity: 0.5; }
-            50% { transform: scale(1.05); opacity: 0.9; }
-            100% { transform: scale(0.9); opacity: 0.5; }
+        @keyframes pulseGrid {
+            0% { transform: translate(-50%, -50%) rotateX(65deg) scale(0.85); opacity: 0.4; }
+            50% { transform: translate(-50%, -50%) rotateX(65deg) scale(1.1); opacity: 0.9; }
+            100% { transform: translate(-50%, -50%) rotateX(65deg) scale(0.85); opacity: 0.4; }
         }
 
-        /* انیمیشن اولیه جستجوی سطح */
-        #surface-scanner {
+        /* پیام انیمیشنی اسکن */
+        #surface-toast {
             position: absolute;
-            top: 40%;
+            top: 15%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
             background: rgba(20, 20, 20, 0.75);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.18);
             color: #fff;
-            padding: 14px 22px;
+            padding: 12px 24px;
             border-radius: 30px;
             font-size: 0.9rem;
-            z-index: 20;
+            z-index: 25;
             display: flex;
             align-items: center;
             gap: 10px;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.6s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* لایه مدل ۳ بعدی */
+        /* لایه رندر مدل */
         #ios-model-viewer {
             position: absolute;
             top: 0; left: 0;
@@ -188,7 +195,7 @@
             z-index: 5;
         }
 
-        /* نوار بالای آیفون (دکمه بستن اپلی) */
+        /* نوار بالای آیفون */
         .ios-top-bar {
             position: absolute;
             top: 25px;
@@ -199,68 +206,75 @@
             align-items: center;
             z-index: 30;
         }
-        .ios-close-btn {
-            background: rgba(30, 30, 30, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.2);
+        .ios-btn-circle {
+            background: rgba(30, 30, 30, 0.75);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255,255,255,0.25);
             color: #fff;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
         }
-        .ios-badge {
-            background: rgba(30, 30, 30, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+        .ios-status {
+            background: rgba(30, 30, 30, 0.75);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 0.88rem;
             color: #f1f1f1;
+            font-weight: 500;
         }
 
-        /* نوار پایینی اپل با دکمه ریست زاویه */
-        .ios-bottom-bar {
+        /* نوار ابزار پایین آیفون */
+        .ios-dock-bar {
             position: absolute;
             bottom: 35px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 12px;
+            gap: 10px;
             z-index: 30;
-        }
-        .ios-dock-btn {
-            background: rgba(30, 30, 30, 0.75);
-            backdrop-filter: blur(20px);
+            background: rgba(25, 25, 25, 0.78);
+            backdrop-filter: blur(25px);
             border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 14px;
+            border-radius: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .dock-tool {
+            background: transparent;
+            border: none;
             color: #fff;
-            padding: 10px 20px;
-            border-radius: 25px;
+            padding: 8px 14px;
+            border-radius: 20px;
             font-family: 'Vazirmatn', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             display: flex;
             align-items: center;
             gap: 6px;
             cursor: pointer;
+            transition: background 0.2s ease;
         }
+        .dock-tool:active { background: rgba(255,255,255,0.15); }
 
-        /* فوتر */
         .cafe-footer {
             margin-top: 50px;
-            background: rgba(15, 15, 15, 0.85);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            background: rgba(18, 18, 18, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.25);
             color: #ddd;
-            padding: 30px 20px;
-            border-radius: 20px;
+            padding: 35px 20px;
+            border-radius: 24px;
             text-align: center;
         }
-        .cafe-footer h3 { color: #d4af37; margin-bottom: 10px; font-size: 1.2rem; }
-        .footer-info { margin: 15px 0; font-size: 0.9rem; line-height: 2; color: #bbb; }
-        .copyright { font-size: 0.8rem; color: #666; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
+        .cafe-footer h3 { color: #d4af37; margin-bottom: 12px; font-size: 1.3rem; }
+        .footer-info { margin: 15px 0; font-size: 0.92rem; line-height: 2.1; color: #bbb; }
+        .copyright { font-size: 0.8rem; color: #666; margin-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px; }
     </style>
 </head>
 <body>
@@ -271,12 +285,11 @@
     </header>
 
     <main>
-        <!-- فیلترها -->
         <div class="filter-buttons">
-            <button class="filter-btn active" onclick="filterItems('all', this)">همه</button>
-            <button class="filter-btn" onclick="filterItems('hot', this)">☕ نوشیدنی گرم</button>
-            <button class="filter-btn" onclick="filterItems('cold', this)">🧊 نوشیدنی سرد</button>
-            <button class="filter-btn" onclick="filterItems('dessert', this)">🍰 دسرها</button>
+            <button class="filter-btn active" onclick="filterItems('all', this)">همه منو</button>
+            <button class="filter-btn" onclick="filterItems('hot', this)">☕ بار گرم</button>
+            <button class="filter-btn" onclick="filterItems('cold', this)">🧊 بار سرد</button>
+            <button class="filter-btn" onclick="filterItems('dessert', this)">🍰 شیرینی و دسر</button>
         </div>
 
         <div class="items-grid">
@@ -292,21 +305,21 @@
                         auto-rotate 
                         shadow-intensity="1">
                     </model-viewer>
-                    <button class="ar-trigger-btn" onclick="launchCustomAR('https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
-                        ✨ مشاهده روی میز شما (AR)
+                    <button class="ar-trigger-btn" onclick="openAR('https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
+                        <span>✨</span> قرار دادن روی میز شما
                     </button>
                 </div>
                 <div class="card-info">
                     <h2>کافه لاته ویژه</h2>
                     <div class="price">۸۵,۰۰۰ تومان</div>
-                    <p class="desc">ترکیبی بی‌نظیر از اسپرسو تازه و شیر بخاردهی شده با فوم ابریشمی مخملی.</p>
+                    <p class="desc">ترکیبی بی‌نظیر از دبل شات اسپرسو و شیر مخملی شده با طراحی ویژه باریستا.</p>
                 </div>
             </div>
 
             <!-- آیتم ۲ -->
             <div class="menu-card" data-category="hot">
                 <div class="card-image-box">
-                    <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80" alt="اسپرسو دبل آرت">
+                    <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80" alt="اسپرسو دوبل">
                 </div>
                 <div class="model-box">
                     <model-viewer 
@@ -315,21 +328,21 @@
                         auto-rotate 
                         shadow-intensity="1">
                     </model-viewer>
-                    <button class="ar-trigger-btn" onclick="launchCustomAR('https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
-                        ✨ مشاهده روی میز شما (AR)
+                    <button class="ar-trigger-btn" onclick="openAR('https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
+                        <span>✨</span> قرار دادن روی میز شما
                     </button>
                 </div>
                 <div class="card-info">
-                    <h2>اسپرسو دبل آرت</h2>
+                    <h2>اسپرسو دوبل ۱۰۰٪ عربیکا</h2>
                     <div class="price">۶۵,۰۰۰ تومان</div>
-                    <p class="desc">عصاره‌گیری ۱۰۰٪ عربیکا با کرمای طلایی و طعم‌یادهای شکلاتی و آجیلی.</p>
+                    <p class="desc">عصاره‌گیری استاندارد با کرمای غلیظ فندقی و طعم‌یاد شکلات تلخ و آجیلی.</p>
                 </div>
             </div>
 
             <!-- آیتم ۳ -->
             <div class="menu-card" data-category="cold">
                 <div class="card-image-box">
-                    <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=800&q=80" alt="آیس لاته کارامل">
+                    <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=800&q=80" alt="آیس کارامل ماکیاتو">
                 </div>
                 <div class="model-box">
                     <model-viewer 
@@ -338,14 +351,14 @@
                         auto-rotate 
                         shadow-intensity="1">
                     </model-viewer>
-                    <button class="ar-trigger-btn" onclick="launchCustomAR('https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
-                        ✨ مشاهده روی میز شما (AR)
+                    <button class="ar-trigger-btn" onclick="openAR('https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
+                        <span>✨</span> قرار دادن روی میز شما
                     </button>
                 </div>
                 <div class="card-info">
-                    <h2>آیس لاته کارامل</h2>
+                    <h2>آیس کارامل ماکیاتو</h2>
                     <div class="price">۹۰,۰۰۰ تومان</div>
-                    <p class="desc">اسپرسوی خنک به همراه شیر پرچرب و سس کارامل دست‌ساز با تکه‌های یخ.</p>
+                    <p class="desc">لایه‌های شیر خنک، وانیل ماداگاسکار و اسپرسو همراه با سس کارامل دست‌ساز کافه.</p>
                 </div>
             </div>
 
@@ -361,14 +374,14 @@
                         auto-rotate 
                         shadow-intensity="1">
                     </model-viewer>
-                    <button class="ar-trigger-btn" onclick="launchCustomAR('https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
-                        ✨ مشاهده روی میز شما (AR)
+                    <button class="ar-trigger-btn" onclick="openAR('https://modelviewer.dev/shared-assets/models/Astronaut.glb', 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz')">
+                        <span>✨</span> قرار دادن روی میز شما
                     </button>
                 </div>
                 <div class="card-info">
-                    <h2>کیک شکلاتی بلژیکی</h2>
+                    <h2>کیک فاج شکلاتی</h2>
                     <div class="price">۱۱۰,۰۰۰ تومان</div>
-                    <p class="desc">کیک اسفنجی تیره همراه با لایه‌های متراکم گاناش و بافت لطیف و غنی.</p>
+                    <p class="desc">کیک اسفنجی خیس شکلاتی با لایه‌های متراکم گاناش ۷۰٪ تلخ و بافت ابریشمی.</p>
                 </div>
             </div>
         </div>
@@ -376,48 +389,49 @@
         <footer class="cafe-footer">
             <h3>☕ کافه لومیر</h3>
             <div class="footer-info">
-                📍 خیابان ولیعصر، نرسیده به میدان ونک، نبش کوچه ششم<br>
-                📞 ۰۲۱-۸۸۸۸۴۳۲۱<br>
-                ⏰ همه‌روزه از ساعت ۸:۳۰ صبح الی ۲۳:۳۰ شب
+                📍 تهران، خیابان ولیعصر، بالاتر از پارک ساعی، نبش کوچه دلجو<br>
+                📞 تماس: ۰۲۱-۸۸۸۸۴۳۲۱<br>
+                ⏰ ساعت کاری: همه‌روزه از ۸:۰۰ صبح الی ۲۴:۰۰ شب
             </div>
-            <div class="copyright">طراحی شده با تکنولوژی منوی سه‌بعدی و واقعیت افزوده</div>
+            <div class="copyright">طراحی شده با تکنولوژی AR تجاری | قابلیت اجرا روی تمام گوشی‌ها</div>
         </footer>
     </main>
 
-    <!-- محیط واقعیت افزوده مو‌به‌مو شبیه آیفون (برای اندروید) -->
+    <!-- شبیه‌ساز حرفه‌ای Apple Quick Look برای اندروید -->
     <div id="ios-ar-view">
         <video id="camera-video" autoplay playsinline muted></video>
 
-        <!-- نشانگر سطح و سایه طبیعی روی میز -->
-        <div class="reticle-container">
-            <div class="reticle-ring"></div>
-            <div class="reticle-shadow"></div>
+        <!-- استیج نوری و سایه تماس میز -->
+        <div class="ar-stage">
+            <div class="scanning-grid" id="grid-element"></div>
+            <div class="table-shadow"></div>
         </div>
 
         <!-- پیام اسکن محیط -->
-        <div id="surface-scanner">
-            <span>📐</span> سطح میز را اسکن کنید...
+        <div id="surface-toast">
+            <span>📱</span> گوشی را به آرامی روی سطح میز حرکت دهید...
         </div>
 
-        <!-- نمایش‌دهنده مدل با امکان چرخش، بزرگ‌نمایی و حرکت -->
+        <!-- مدل رندر شده -->
         <model-viewer 
             id="ios-model-viewer" 
             camera-controls 
             touch-action="pan-y" 
-            auto-rotate 
-            shadow-intensity="1.5"
-            shadow-softness="0.8">
+            shadow-intensity="2"
+            shadow-softness="0.5">
         </model-viewer>
 
-        <!-- نوار بالایی استایل iOS -->
+        <!-- نوار بالا -->
         <div class="ios-top-bar">
-            <button class="ios-close-btn" onclick="exitCustomAR()">✕</button>
-            <div class="ios-badge">واقعیت افزوده روی میز</div>
+            <button class="ios-btn-circle" onclick="exitCustomAR()">✕</button>
+            <div class="ios-status">AR Live • میز ۱۲</div>
         </div>
 
-        <!-- نوار پایینی استایل iOS -->
-        <div class="ios-bottom-bar">
-            <button class="ios-dock-btn" onclick="resetModelPosition()">🔄 بازنشانی زاویه</button>
+        <!-- نوار داک ابزار پایین -->
+        <div class="ios-dock-bar">
+            <button class="dock-tool" onclick="resetScale()">🔍 اندازه واقعی</button>
+            <button class="dock-tool" onclick="toggleAutoRotate()">🔄 چرخش</button>
+            <button class="dock-tool" onclick="resetAngle()">🎯 مرکز</button>
         </div>
     </div>
 
@@ -436,63 +450,74 @@
             });
         }
 
-        // عملکرد دکمه روی آیفون و اندروید
-        function launchCustomAR(glbUrl, usdzUrl) {
+        function openAR(glbUrl, usdzUrl) {
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            
+
             if (isIOS) {
-                // آیفون: Quick Look رسمی خود سیستم عامل
                 const a = document.createElement('a');
                 a.setAttribute('rel', 'ar');
                 a.appendChild(document.createElement('img'));
                 a.setAttribute('href', usdzUrl);
                 a.click();
             } else {
-                // اندروید: شبیه‌ساز کاملاً بومی عین آیفون با دسترسی دوربین
-                openIOSStyleCamera(glbUrl);
+                startModernAR(glbUrl);
             }
         }
 
-        let mediaStream = null;
+        let streamObj = null;
+        let rotating = false;
 
-        async function openIOSStyleCamera(modelUrl) {
+        async function startModernAR(modelUrl) {
             const arView = document.getElementById('ios-ar-view');
             const video = document.getElementById('camera-video');
             const viewer = document.getElementById('ios-model-viewer');
-            const scanner = document.getElementById('surface-scanner');
+            const toast = document.getElementById('surface-toast');
+            const grid = document.getElementById('grid-element');
 
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } }
+                    video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 } }
                 });
-                mediaStream = stream;
+                streamObj = stream;
                 video.srcObject = stream;
             } catch (err) {
-                console.log("دوربین باز نشد یا اجازه داده نشد");
+                console.log("Camera access not granted");
             }
 
             viewer.setAttribute('src', modelUrl);
             arView.style.display = 'block';
-            scanner.style.opacity = '1';
+            toast.style.opacity = '1';
+            grid.style.display = 'block';
 
-            // بعد از ۲.۵ ثانیه اسکن سطح را پنهان کن (عین افکت اسکن اپل)
+            // پس از شناسایی میز، شبکه اسکن محو شده و سایه واقعی باقی می‌ماند
             setTimeout(() => {
-                scanner.style.opacity = '0';
-            }, 2500);
+                toast.style.opacity = '0';
+                grid.style.opacity = '0';
+            }, 2600);
         }
 
-        function resetModelPosition() {
+        function resetAngle() {
             const viewer = document.getElementById('ios-model-viewer');
             viewer.cameraOrbit = '0deg 75deg 105%';
+        }
+
+        function resetScale() {
+            const viewer = document.getElementById('ios-model-viewer');
             viewer.fieldOfView = 'auto';
+        }
+
+        function toggleAutoRotate() {
+            const viewer = document.getElementById('ios-model-viewer');
+            rotating = !rotating;
+            viewer.autoRotate = rotating;
         }
 
         function exitCustomAR() {
             const arView = document.getElementById('ios-ar-view');
             const video = document.getElementById('camera-video');
-            if (mediaStream) {
-                mediaStream.getTracks().forEach(track => track.stop());
-                mediaStream = null;
+            if (streamObj) {
+                streamObj.getTracks().forEach(track => track.stop());
+                streamObj = null;
             }
             video.srcObject = null;
             arView.style.display = 'none';
