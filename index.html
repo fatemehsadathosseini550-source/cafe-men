@@ -208,4 +208,160 @@
         <video id="camera-feed" autoplay playsinline muted></video>
         <button class="close-cam-btn" onclick="closeCameraView()">✕ خروج از دوربین</button>
         <model-viewer id="interactive-viewer" camera-controls auto-rotate shadow-intensity="1"></model-viewer>
-        <div class="cam-guide">مدل را با انگشت بچرخانید و 
+        <div class="cam-guide">مدل را با انگشت بچرخانید و روی میز تنظیم کنید</div>
+    </div>
+
+    <script>
+        // لیست محصولات کامل
+        const menuItems = [
+            {
+                id: 1,
+                category: "hot",
+                name: "کافه لاته ویژه",
+                price: "۸۵,۰۰۰ تومان",
+                description: "ترکیبی بی‌نظیر از اسپرسو تازه و شیر بخاردهی شده با فوم ابریشمی مخملی.",
+                image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80",
+                model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+                iosModel: "https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+            },
+            {
+                id: 2,
+                category: "hot",
+                name: "اسپرسو دبل آرت",
+                price: "۶۵,۰۰۰ تومان",
+                description: "عصاره‌گیری ۱۰۰٪ عربیکا با کرمای طلایی و طعم‌یادهای شکلاتی و آجیلی.",
+                image: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80",
+                model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+                iosModel: "https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+            },
+            {
+                id: 3,
+                category: "cold",
+                name: "آیس لاته کارامل",
+                price: "۹۰,۰۰۰ تومان",
+                description: "اسپرسوی خنک به همراه شیر پرچرب و سس کارامل دست‌ساز با تکه‌های یخ.",
+                image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=800&q=80",
+                model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+                iosModel: "https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+            },
+            {
+                id: 4,
+                category: "dessert",
+                name: "کیک شکلاتی بلژیکی",
+                price: "۱۱۰,۰۰۰ تومان",
+                description: "کیک اسفنجی تیره همراه با لایه‌های متراکم گاناش و بافت لطیف و غنی.",
+                image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80",
+                model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+                iosModel: "https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+            }
+        ];
+
+        // رندر کردن منو به همراه تب‌ها
+        function renderMenu(filter = 'all') {
+            const container = document.getElementById('menu-container');
+            const filteredItems = filter === 'all' 
+                ? menuItems 
+                : menuItems.filter(item => item.category === filter);
+
+            let htmlContent = `
+                <div class="filter-buttons">
+                    <button class="filter-btn ${filter === 'all' ? 'active' : ''}" onclick="filterCategory('all')">همه</button>
+                    <button class="filter-btn ${filter === 'hot' ? 'active' : ''}" onclick="filterCategory('hot')">☕ نوشیدنی گرم</button>
+                    <button class="filter-btn ${filter === 'cold' ? 'active' : ''}" onclick="filterCategory('cold')">🧊 نوشیدنی سرد</button>
+                    <button class="filter-btn ${filter === 'dessert' ? 'active' : ''}" onclick="filterCategory('dessert')">🍰 دسرها</button>
+                </div>
+                <div class="items-grid">
+            `;
+
+            filteredItems.forEach(item => {
+                htmlContent += `
+                    <div class="menu-card">
+                        <div class="card-image-box">
+                            <img src="${item.image}" alt="${item.name}">
+                        </div>
+                        <div class="model-box">
+                            <model-viewer 
+                                src="${item.model}" 
+                                ios-src="${item.iosModel}"
+                                ar 
+                                ar-modes="scene-viewer quick-look webxr" 
+                                ar-scale="auto"
+                                camera-controls 
+                                auto-rotate 
+                                shadow-intensity="1">
+                                <div class="btn-box">
+                                    <button slot="ar-button" class="custom-ar-button">
+                                        🚀 AR پیشرفته
+                                    </button>
+                                    <button type="button" class="webcam-btn" onclick="openLiveCamera('${item.model}')">
+                                        📷 نمایش با دوربین
+                                    </button>
+                                </div>
+                            </model-viewer>
+                        </div>
+                        <div class="card-info">
+                            <h2>${item.name}</h2>
+                            <div class="price">${item.price}</div>
+                            <p class="desc">${item.description}</p>
+                            <p class="tip">💡 مدل را ۳۶۰ درجه بچرخانید یا دکمه‌های دوربین را لمس کنید.</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            htmlContent += `
+                </div>
+                <footer class="cafe-footer">
+                    <h3>☕ کافه لومیر</h3>
+                    <div class="footer-info">
+                        📍 خیابان ولیعصر، نرسیده به میدان ونک، نبش کوچه ششم<br>
+                        📞 ۰۲۱-۸۸۸۸۴۳۲۱<br>
+                        ⏰ همه‌روزه از ساعت ۸:۳۰ صبح الی ۲۳:۳۰ شب
+                    </div>
+                    <div class="copyright">طراحی شده با تکنولوژی منوی سه‌بعدی و واقعیت افزوده</div>
+                </footer>
+            `;
+
+            container.innerHTML = htmlContent;
+        }
+
+        function filterCategory(category) {
+            renderMenu(category);
+        }
+
+        // عملکرد دوربین زنده مستقیم در مرورگر (بدون نیاز به ARCore یا هیچ برنامه دیگری)
+        let activeStream = null;
+
+        async function openLiveCamera(modelUrl) {
+            const modal = document.getElementById('camera-modal');
+            const video = document.getElementById('camera-feed');
+            const viewer = document.getElementById('interactive-viewer');
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: { ideal: "environment" } }
+                });
+                activeStream = stream;
+                video.srcObject = stream;
+                viewer.setAttribute('src', modelUrl);
+                modal.style.display = 'block';
+            } catch (err) {
+                alert('لطفاً دسترسی به دوربین را در مرورگر تأیید کنید.');
+            }
+        }
+
+        function closeCameraView() {
+            const modal = document.getElementById('camera-modal');
+            const video = document.getElementById('camera-feed');
+            if (activeStream) {
+                activeStream.getTracks().forEach(track => track.stop());
+            }
+            video.srcObject = null;
+            modal.style.display = 'none';
+        }
+
+        // بارگذاری اولیه
+        renderMenu('all');
+    </script>
+</body>
+</html>
