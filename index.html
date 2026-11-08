@@ -7,7 +7,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastinfar/vazirmatn-font@v33.003/Vazirmatn-font-face.css">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         body {
             font-family: 'Vazirmatn', sans-serif;
             direction: rtl;
@@ -19,54 +23,61 @@
             color: #fff;
             min-height: 100vh;
         }
-        header { text-align: center; padding: 40px 20px 20px 20px; }
-        header h1 { font-size: 2.2rem; color: #d4af37; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        header p { color: #bbb; font-size: 1rem; }
-        main { max-width: 700px; margin: 0 auto; padding: 15px; }
-        .filter-buttons { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-        .filter-btn {
-            background: rgba(30, 30, 30, 0.7);
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            color: #ccc;
-            padding: 8px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-family: 'Vazirmatn', sans-serif;
-            font-size: 0.95rem;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
+        header {
+            text-align: center;
+            padding: 40px 20px 20px 20px;
         }
-        .filter-btn:hover, .filter-btn.active {
-            background: #d4af37;
-            color: #121212;
-            font-weight: bold;
-            border-color: #d4af37;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        header h1 {
+            font-size: 2.2rem;
+            color: #d4af37;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
-        .items-grid { display: flex; flex-direction: column; gap: 25px; }
+        header p {
+            color: #bbb;
+            font-size: 1rem;
+        }
+        main {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        .items-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
         .menu-card {
-            background: rgba(25, 25, 25, 0.75);
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: rgba(25, 25, 25, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.35);
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             backdrop-filter: blur(10px);
         }
-        .card-image-box img { width: 100%; height: 220px; object-fit: cover; display: block; }
+        .card-image-box img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
         .model-box {
             width: 100%;
             height: 320px;
-            background: rgba(10, 10, 10, 0.6);
+            background: rgba(0, 0, 0, 0.4);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
         }
-        model-viewer { width: 100%; height: 100%; }
+        model-viewer {
+            width: 100%;
+            height: 100%;
+        }
         .custom-ar-button {
             background: #d4af37;
             color: #121212;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 22px;
             border-radius: 25px;
             font-family: 'Vazirmatn', sans-serif;
             font-weight: bold;
@@ -77,136 +88,118 @@
             transform: translateX(-50%);
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-        .card-info { padding: 20px; text-align: right; }
-        .card-info h2 { font-size: 1.3rem; color: #fff; margin-bottom: 8px; }
-        .card-info .price { color: #d4af37; font-size: 1.15rem; font-weight: bold; margin-bottom: 10px; }
-        .card-info .desc { color: #aaa; font-size: 0.9rem; line-height: 1.6; }
+        .card-info {
+            padding: 20px;
+            text-align: right;
+        }
+        .card-info h2 {
+            font-size: 1.35rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .card-info .price {
+            color: #d4af37;
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .card-info .desc {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
         .cafe-footer {
             margin-top: 50px;
-            background: rgba(15, 15, 15, 0.85);
+            background: rgba(15, 15, 15, 0.9);
             border: 1px solid rgba(212, 175, 55, 0.2);
             color: #ddd;
-            padding: 30px 20px 20px 20px;
+            padding: 30px 20px;
             border-radius: 20px;
             text-align: center;
         }
-        .cafe-footer h3 { color: #d4af37; margin-bottom: 10px; }
-        .footer-info { margin: 15px 0; font-size: 0.9rem; line-height: 2; color: #bbb; }
+        .cafe-footer h3 {
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+        .footer-info {
+            margin: 15px 0;
+            font-size: 0.9rem;
+            line-height: 2;
+            color: #bbb;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>☕ کافه لومیر</h1>
-        <p>مشاهده سه‌بعدی و واقعیت افزوده نوشیدنی‌ها و دسرها</p>
+        <p>مشاهده ۳۶۰ درجه و واقعیت افزوده منو</p>
     </header>
 
-    <main id="menu-container"></main>
-
-    <script>
-        const menuContainer = document.getElementById('menu-container');
-
-        const menuItems = [
-            {
-                id: 1,
-                category: "hot",
-                name: "کافه لاته ویژه",
-                price: "۸۵,۰۰۰ تومان",
-                description: "ترکیبی بی‌نظیر از اسپرسو تازه و شیر بخاردهی شده با فوم ابریشمی.",
-                image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80",
-                model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-            },
-            {
-                id: 2,
-                category: "hot",
-                name: "اسپرسو دبل",
-                price: "۶۵,۰۰۰ تومان",
-                description: "قهوه خالص، غلیظ و پرانرژی با کرمای غنی و طعمی ماندگار.",
-                image: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80",
-                model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-            },
-            {
-                id: 3,
-                category: "cold",
-                name: "آیس لاته",
-                price: "۹۰,۰۰۰ تومان",
-                description: "ترکیب خنک و دلپذیر اسپرسو، شیر سرد و یخ، ایده‌آل برای روزهای گرم.",
-                image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=800&q=80",
-                model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-            },
-            {
-                id: 4,
-                category: "dessert",
-                name: "کیک شکلاتی مخصوص",
-                price: "۱۱۰,۰۰۰ تومان",
-                description: "کیک اسفنجی شکلاتی با لایه‌های گاناش و بافتی بسیار نرم و لذیذ.",
-                image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80",
-                model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-            }
-        ];
-
-        function renderMenu(filter = 'all') {
-            let htmlContent = `
-                <div class="filter-buttons">
-                    <button class="filter-btn ${filter === 'all' ? 'active' : ''}" onclick="filterCategory('all')">همه</button>
-                    <button class="filter-btn ${filter === 'hot' ? 'active' : ''}" onclick="filterCategory('hot')">☕ گرم</button>
-                    <button class="filter-btn ${filter === 'cold' ? 'active' : ''}" onclick="filterCategory('cold')">🧊 سرد</button>
-                    <button class="filter-btn ${filter === 'dessert' ? 'active' : ''}" onclick="filterCategory('dessert')">🍰 دسر</button>
+    <main>
+        <div class="items-grid">
+            
+            <!-- آیتم ۱: کافه لاته -->
+            <div class="menu-card">
+                <div class="card-image-box">
+                    <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80" alt="کافه لاته ویژه">
                 </div>
-                <div class="items-grid">
-            `;
+                <div class="model-box">
+                    <model-viewer 
+                        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+                        ar 
+                        ar-modes="webxr scene-viewer quick-look" 
+                        camera-controls 
+                        auto-rotate 
+                        shadow-intensity="1">
+                        <button slot="ar-button" class="custom-ar-button">
+                            🚀 مشاهده در محیط شما (AR)
+                        </button>
+                    </model-viewer>
+                </div>
+                <div class="card-info">
+                    <h2>کافه لاته ویژه</h2>
+                    <div class="price">۸۵,۰۰۰ تومان</div>
+                    <p class="desc">ترکیبی بی‌نظیر از اسپرسو تازه و شیر بخاردهی شده با فوم ابریشمی مخملی.</p>
+                </div>
+            </div>
 
-            const filteredItems = filter === 'all' ? menuItems : menuItems.filter(item => item.category === filter);
+            <!-- آیتم ۲: کیک شکلاتی -->
+            <div class="menu-card">
+                <div class="card-image-box">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80" alt="کیک شکلاتی مخصوص">
+                </div>
+                <div class="model-box">
+                    <model-viewer 
+                        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+                        ar 
+                        ar-modes="webxr scene-viewer quick-look" 
+                        camera-controls 
+                        auto-rotate 
+                        shadow-intensity="1">
+                        <button slot="ar-button" class="custom-ar-button">
+                            🚀 مشاهده در محیط شما (AR)
+                        </button>
+                    </model-viewer>
+                </div>
+                <div class="card-info">
+                    <h2>کیک شکلاتی مخصوص</h2>
+                    <div class="price">۱۱۰,۰۰۰ تومان</div>
+                    <p class="desc">کیک اسفنجی شکلاتی با لایه‌های گاناش بلژیکی و بافتی بسیار نرم و لذیذ.</p>
+                </div>
+            </div>
 
-            filteredItems.forEach(item => {
-                htmlContent += `
-                    <div class="menu-card">
-                        <div class="card-image-box">
-                            <img src="${item.image}" alt="${item.name}">
-                        </div>
-                        <div class="model-box">
-                            <model-viewer 
-                                src="${item.model}" 
-                                ar 
-                                ar-modes="webxr scene-viewer quick-look" 
-                                camera-controls 
-                                auto-rotate 
-                                shadow-intensity="1">
-                                <button slot="ar-button" class="custom-ar-button">
-                                    🚀 مشاهده در محیط (AR)
-                                </button>
-                            </model-viewer>
-                        </div>
-                        <div class="card-info">
-                            <h2>${item.name}</h2>
-                            <div class="price">${item.price}</div>
-                            <p class="desc">${item.description}</p>
-                        </div>
-                    </div>
-                `;
-            });
+        </div>
 
-            htmlContent += `</div>`;
+        <footer class="cafe-footer">
+            <h3>☕ کافه لومیر</h3>
+            <p>محیطی آرام و مدرن برای ثبت زیباترین خاطرات شما</p>
+            <div class="footer-info">
+                <p>📍 آدرس: تهران، خیابان ولیعصر</p>
+                <p>📞 تلفن سفارش و رزرو: ۰۲۱-۸۸۸۸۸۸۸۸</p>
+            </div>
+        </footer>
+    </main>
 
-            htmlContent += `
-                <footer class="cafe-footer">
-                    <h3>☕ کافه لومیر</h3>
-                    <p>محیطی آرام و مدرن برای لحظات شما</p>
-                    <div class="footer-info">
-                        <p>📍 آدرس: تهران، خیابان ولیعصر</p>
-                        <p>📞 تلفن سفارش: ۰۲۱-۸۸۸۸۸۸۸۸</p>
-                    </div>
-                </footer>
-            `;
-
-            menuContainer.innerHTML = htmlContent;
-        }
-
-        window.filterCategory = function(category) {
-            renderMenu(category);
-        };
-
-        renderMenu('all');
-    </script>
 </body>
 </html>
