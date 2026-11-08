@@ -1,6 +1,6 @@
 const menuContainer = document.getElementById('menu-container');
 
-// لیست آیتم‌های منو به تفکیک دسته‌بندی
+// لیست آیتم‌های منو
 const menuItems = [
     {
         id: 1,
@@ -59,22 +59,16 @@ function renderMenu(filter = 'all') {
         htmlContent += `
             <div class="menu-card">
                 <div class="card-image-box">
-                    <img src="${item.image}" alt="${item.name}" loading="lazy">
+                    <img src="${item.image}" alt="${item.name}">
                 </div>
                 <div class="model-box">
                     <model-viewer 
                         src="${item.model}" 
-                        poster="${item.image}"
-                        loading="lazy"
-                        reveal="interaction"
                         ar 
                         ar-modes="webxr scene-viewer quick-look" 
                         camera-controls 
                         auto-rotate 
                         shadow-intensity="1">
-                        <button slot="poster" class="load-model-btn">
-                            👆 لمس برای بارگذاری مدل ۳ بعدی
-                        </button>
                         <button slot="ar-button" class="custom-ar-button">
                             🚀 نمایش در محیط شما (AR)
                         </button>
