@@ -3,10 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>اسکن منوی کافه | نمونه AR</title>
+  <title>اسکن منوی کافه | AR</title>
 
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <!-- کتابخانه مدل‌ویور برای نمایش مدل‌های واقعی سه‌بعدی -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
   <style>
     html, body {
@@ -53,7 +55,7 @@
 
 <body>
   <a id="back" href="index.html">بازگشت به منو</a>
-  <div id="status">اجازهٔ دوربین را بده؛ سپس دوربین را به سمت تمام تصویر منو بگیر.</div>
+  <div id="status">دوربین را بگیرید روی تصویر منو...</div>
 
   <a-scene
     mindar-image="imageTargetSrc: ./targets.mind;"
@@ -69,129 +71,34 @@
       raycaster="objects: .clickable; far: 10000">
     </a-camera>
 
+    <!-- هدف اول: روی منو شناسایی میشود -->
     <a-entity id="menu-target" mindar-image-target="targetIndex: 0">
 
-      <!-- محدوده‌های لمس؛ مختصات بر اساس تصویر 768×1187 ارسالی توست -->
-      <a-plane id="espresso-hit" class="clickable"
-        position="0.25 0.55 0.005"
-        width="0.31" height="0.048"
-        material="color: #e5b95e; opacity: 0.28; transparent: true; side: double">
+      <!-- یک دکمه یا ناحیه کلیک روی عکس -->
+      <a-plane id="coffee-hit" class="clickable"
+        position="0 0 0"
+        width="0.8" height="0.4"
+        material="color: #b9964e; opacity: 0.35; transparent: true; side: double">
       </a-plane>
 
-      <a-plane id="chocolate-hit" class="clickable"
-        position="0.25 0.16 0.005"
-        width="0.31" height="0.048"
-        material="color: #e5b95e; opacity: 0.28; transparent: true; side: double">
-      </a-plane>
-
-      <a-plane id="cake-hit" class="clickable"
-        position="-0.15 -0.65 0.005"
-        width="0.31" height="0.048"
-        material="color: #e5b95e; opacity: 0.28; transparent: true; side: double">
-      </a-plane>
-
-      <!-- مدل سادهٔ سه‌بعدی اسپرسو -->
-      <a-entity id="espresso-model" visible="false" position="0.25 0.55 0">
-        <a-cylinder radius="0.075" height="0.01"
-          rotation="90 0 0" position="0 0 0.025" color="#eee9df">
-        </a-cylinder>
-        <a-cylinder radius-bottom="0.038" radius-top="0.054"
-          height="0.078" rotation="90 0 0"
-          position="0 0 0.072" color="#faf7ef">
-        </a-cylinder>
-        <a-circle radius="0.049" position="0 0 0.112"
-          color="#3b1d13" material="side: double">
-        </a-circle>
-        <a-ring radius-inner="0.046" radius-outer="0.055"
-          position="0 0 0.114" color="#f7f1e6"
-          material="side: double">
-        </a-ring>
-        <a-torus radius="0.023" radius-tubular="0.007"
-          position="0.065 0 0.078" color="#faf7ef">
-        </a-torus>
+      <!-- مدل سه‌بعدی واقعی فنجان قهوه که با پیدا شدن منو ظاهر می‌شود -->
+      <a-entity position="0 0 0.1" scale="0.8 0.8 0.8">
+        <a-gltf-model src="https://modelviewer.dev/shared-assets/models/Cup.glb"></a-gltf-model>
       </a-entity>
 
-      <!-- مدل سادهٔ هات چاکلت -->
-      <a-entity id="chocolate-model" visible="false" position="0.25 0.16 0">
-        <a-cylinder radius="0.082" height="0.012"
-          rotation="90 0 0" position="0 0 0.025" color="#eee9df">
-        </a-cylinder>
-        <a-cylinder radius-bottom="0.043" radius-top="0.062"
-          height="0.09" rotation="90 0 0"
-          position="0 0 0.08" color="#faf7ef">
-        </a-cylinder>
-        <a-circle radius="0.056" position="0 0 0.127"
-          color="#5b2c1d" material="side: double">
-        </a-circle>
-        <a-sphere radius="0.022" position="0 0 0.14"
-          scale="1 1 0.35" color="#fff8e9">
-        </a-sphere>
-        <a-torus radius="0.027" radius-tubular="0.008"
-          position="0.075 0 0.085" color="#faf7ef">
-        </a-torus>
-      </a-entity>
-
-      <!-- مدل سادهٔ چیزکیک؛ نمونهٔ نمایشی، نه مدل اختصاصی محصول -->
-      <a-entity id="cake-model" visible="false" position="-0.15 -0.65 0">
-        <a-cylinder radius="0.08" height="0.012"
-          rotation="90 0 0" position="0 0 0.025" color="#eeeeea">
-        </a-cylinder>
-        <a-cylinder radius="0.057" height="0.014"
-          rotation="90 0 0" position="0 0 0.042" color="#bb884f">
-        </a-cylinder>
-        <a-cylinder radius="0.057" height="0.041"
-          rotation="90 0 0" position="0 0 0.071" color="#fff0bf">
-        </a-cylinder>
-        <a-circle radius="0.057" position="0 0 0.094"
-          color="#d44b59" material="side: double">
-        </a-circle>
-        <a-sphere radius="0.015" position="0.018 0.01 0.103"
-          color="#a3203c">
-        </a-sphere>
-      </a-entity>
     </a-entity>
   </a-scene>
 
   <script>
     const statusBox = document.querySelector("#status");
     const target = document.querySelector("#menu-target");
-    const scene = document.querySelector("a-scene");
-
-    const choices = [
-      { hit: "espresso-hit", model: "espresso-model", name: "تک روبوستا" },
-      { hit: "chocolate-hit", model: "chocolate-model", name: "هات چاکلت" },
-      { hit: "cake-hit", model: "cake-model", name: "چیزکیک" }
-    ];
-
-    let menuVisible = false;
-
-    scene.addEventListener("arError", () => {
-      statusBox.textContent =
-        "دوربین یا AR باز نشد. اجازهٔ دوربین، اینترنت و باز شدن سایت با HTTPS را بررسی کن.";
-    });
 
     target.addEventListener("targetFound", () => {
-      menuVisible = true;
-      statusBox.textContent =
-        "منو پیدا شد! روی یکی از قسمت‌های طلاییِ تک روبوستا، هات چاکلت یا چیزکیک در تصویر گوشی بزن.";
+      statusBox.textContent = "منو با موفقیت اسکن شد! فنجان قهوه سه‌بعدی روی آن ظاهر شد.";
     });
 
     target.addEventListener("targetLost", () => {
-      menuVisible = false;
-      statusBox.textContent = "منو از کادر خارج شد؛ دوربین را دوباره به سمت آن بگیر.";
-    });
-
-    choices.forEach(item => {
-      document.getElementById(item.hit).addEventListener("click", () => {
-        if (!menuVisible) return;
-
-        choices.forEach(other => {
-          document.getElementById(other.model).setAttribute("visible", "false");
-        });
-
-        document.getElementById(item.model).setAttribute("visible", "true");
-        statusBox.textContent = item.name + " انتخاب شد؛ مدل سه‌بعدی روی منو نمایش داده می‌شود.";
-      });
+      statusBox.textContent = "منو از کادر خارج شد. دوباره دوربین را بگیرید.";
     });
   </script>
 </body>
