@@ -69,14 +69,14 @@
             object-fit: cover;
             z-index: 1;
         }
-        /* عکس واقعی فنجان اسپرسو پروژه شما */
+        /* عکس دقیقاً همون فنجان واقعی اسپرسو روی میز با افکت سایه طبیعی */
         #real-cup {
             position: absolute;
-            width: 240px;
+            width: 280px;
             cursor: grab;
             z-index: 2;
             user-select: none;
-            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.9));
+            filter: drop-shadow(0 25px 35px rgba(0,0,0,0.95));
             border-radius: 12px;
         }
         .close-camera-btn {
@@ -130,8 +130,8 @@
         
         <video id="webcam" autoplay playsinline></video>
         
-        <!-- عکس واقعی فنجان اسپرسو شما -->
-        <img id="real-cup" src="image_gen_b7dc057e-b1ce-4173-9f95-a99cd9f7d7df_0.webp" alt="اسپرسوی روی میز">
+        <!-- عکس دقیق فنجان اسپرسو مورد نظر شما -->
+        <img id="real-cup" src="espresso-cup.webp" alt="اسپرسوی واقعی روی میز">
 
         <div class="instruction-box">
             ☕ فنجان سفارش داده شده روی میز شماست (قابل جابجایی با انگشت)
@@ -167,12 +167,12 @@
         }
 
         window.addEventListener('load', () => {
-            cup.style.left = (window.innerWidth / 2 - 120) + 'px';
-            cup.style.top = (window.innerHeight / 2 - 120) + 'px';
+            cup.style.left = (window.innerWidth / 2 - 140) + 'px';
+            cup.style.top = (window.innerHeight / 2 - 140) + 'px';
         });
 
         let isDragging = false;
-        let startX, startY, initialX = window.innerWidth / 2 - 120, initialY = window.innerHeight / 2 - 120;
+        let startX, startY, initialX = window.innerWidth / 2 - 140, initialY = window.innerHeight / 2 - 140;
 
         cup.addEventListener('touchstart', dragStart, {passive: true});
         cup.addEventListener('mousedown', dragStart);
