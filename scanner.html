@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>منوی سه‌بعدی کافه لومیر</title>
+  <title>منوی سه‌بعدی و AR کافه لومیر</title>
+  <!-- کتابخانه استاندارد model-viewer گوگل برای قابلیت AR -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
   <style>
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       background: #14120f;
       color: #f4db98;
       font-family: Tahoma, sans-serif;
     }
-
     header {
       padding: 14px 18px;
       display: flex;
@@ -22,28 +22,23 @@
       background: #1c1914;
       border-bottom: 1px solid #b9964e;
     }
-
     a { color: #f4db98; }
-
     .hint {
       margin: 16px;
       text-align: center;
       font-size: 14px;
     }
-
     .menu-wrap {
       position: relative;
       width: min(100%, 647px);
       margin: 0 auto;
     }
-
     .menu-wrap img {
       display: block;
       width: 100%;
       height: auto;
     }
-
-    /* محل بخش اسپرسو روی عکس منو */
+    /* ناحیه کلیک روی اسپرسو در منو */
     .espresso-hotspot {
       position: absolute;
       left: 61%;
@@ -52,14 +47,13 @@
       height: 18%;
       border: 2px solid #b9964e;
       border-radius: 12px;
-      background: rgba(185, 150, 78, 0.12);
+      background: rgba(185, 150, 78, 0.15);
       cursor: pointer;
     }
-
     .espresso-hotspot:active {
-      background: rgba(185, 150, 78, 0.35);
+      background: rgba(185, 150, 78, 0.4);
     }
-
+    /* پنجره مودال نمایش مدل و AR */
     .viewer {
       position: fixed;
       inset: 0;
@@ -69,67 +63,62 @@
       padding: 16px;
       background: rgba(0, 0, 0, 0.88);
     }
-
     .viewer[hidden] { display: none; }
-
     .viewer-box {
-      width: min(100%, 680px);
+      width: min(100%, 500px);
       padding: 16px;
       border: 1px solid #b9964e;
       border-radius: 18px;
       background: #1c1914;
+      text-align: center;
     }
-
     .viewer-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 12px;
     }
-
     .viewer-top h2 { margin: 0; font-size: 18px; }
-
     .close {
-      padding: 8px 14px;
+      padding: 6px 12px;
       color: #f4db98;
       background: transparent;
       border: 1px solid #b9964e;
       border-radius: 8px;
       cursor: pointer;
     }
-
-    iframe {
-      display: block;
+    /* تگ model-viewer برای چرخش و واقعیت افزوده روی میز */
+    model-viewer {
       width: 100%;
-      height: min(65vh, 500px);
-      border: 0;
-      border-radius: 10px;
+      height: 350px;
+      background-color: #26221c;
+      border-radius: 12px;
     }
-
-    .credit {
-      margin: 10px 0 0;
-      font-size: 12px;
-      text-align: center;
+    /* دکمه AR که روی گوشی ظاهر می‌شود */
+    #ar-button {
+      background: #b9964e;
+      color: #14120f;
+      border-radius: 8px;
+      border: none;
+      padding: 10px 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 12px;
+      font-family: Tahoma, sans-serif;
     }
   </style>
 </head>
-
 <body>
   <header>
     <strong>منوی کافه لومیر</strong>
     <a href="./index.html">بازگشت</a>
   </header>
 
-  <p class="hint">برای دیدن مدل سه‌بعدی، روی بخش «اسپرسو» در منو بزن.</p>
+  <p class="hint">روی بخش «اسپرسو» در منو بزن تا مدل و قابلیت قرار دادن روی میز باز شود.</p>
 
   <main class="menu-wrap">
     <img src="./menu.png" alt="تصویر منوی کافه">
-    <button
-      class="espresso-hotspot"
-      id="espressoButton"
-      type="button"
-      aria-label="نمایش مدل سه‌بعدی اسپرسو">
-    </button>
+    <button class="espresso-hotspot" id="espressoButton" type="button" aria-label="مدل سه‌بعدی اسپرسو"></button>
   </main>
 
   <div class="viewer" id="viewer" hidden>
@@ -139,36 +128,34 @@
         <button class="close" id="closeButton" type="button">بستن ×</button>
       </div>
 
-      <iframe
-        id="espressoModel"
-        title="مدل سه‌بعدی فنجان اسپرسو"
-        allow="autoplay; fullscreen"
-        allowfullscreen>
-      </iframe>
-
-      <p class="credit">
-        مدل نمونه:
-        <a href="https://sketchfab.com/3d-models/coffee-cup-espresso-cup-dbfdde7ba33b401ea145b3b7cfaba657"
-           target="_blank" rel="noopener noreferrer">Just Vy در Sketchfab</a>
-        — CC BY
-      </p>
+      <!-- فایل مدل استاندارد با قابلیت AR مجهز به موتور گوگل -->
+      <model-viewer 
+        id="modelViewer"
+        src="https://modelviewer.dev/shared-assets/models/CoffeeMug.glb"
+        ar
+        ar-modes="scene-viewer quick-look webxr"
+        camera-controls
+        auto-rotate
+        shadow-intensity="1">
+        
+        <button slot="ar-button" id="ar-button">
+          📱 مشاهده روی میز (AR)
+        </button>
+      </model-viewer>
     </div>
   </div>
 
   <script>
     const viewer = document.getElementById("viewer");
-    const model = document.getElementById("espressoModel");
+    const modelViewer = document.getElementById("modelViewer");
 
     document.getElementById("espressoButton").addEventListener("click", () => {
-      model.src =
-        "https://sketchfab.com/models/dbfdde7ba33b401ea145b3b7cfaba657/embed?autostart=1";
       viewer.hidden = false;
       document.body.style.overflow = "hidden";
     });
 
     function closeViewer() {
       viewer.hidden = true;
-      model.removeAttribute("src");
       document.body.style.overflow = "";
     }
 
