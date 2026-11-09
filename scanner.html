@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>کافه لومیر - مدل ۳ بعدی روی میز</title>
-    
-    <!-- لودر رسمی مدل‌ویور گوگل -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <title>کافه لومیر - نمایش اسپرسو روی میز</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -44,6 +41,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         
+        /* کادر روی گزینه اسپرسو در منو */
         .hotspot { 
             position: absolute; 
             top: 5%; 
@@ -56,6 +54,7 @@
             border-radius: 6px;
         }
 
+        /* لایه کامل دوربین زنده */
         #ar-camera-view {
             display: none;
             position: fixed;
@@ -73,13 +72,31 @@
             z-index: 1;
         }
 
-        #cup-3d-model {
+        /* فنجان اسپرسو باکیفیت روی تصویر دوربین */
+        .cup-overlay-wrapper {
             position: absolute;
             inset: 0;
-            width: 100%;
-            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             z-index: 2;
-            background-color: transparent;
+            pointer-events: none; /* اجازه لمس دوربین برای فوکوس */
+        }
+
+        #espresso-photo {
+            width: 260px;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #b9964e;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(185,150,78,0.4);
+            animation: floatCup 3s ease-in-out infinite;
+            pointer-events: auto;
+        }
+
+        @keyframes floatCup {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-8px) scale(1.02); }
         }
 
         .close-camera-btn {
@@ -97,6 +114,7 @@
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
+
         .instruction-box {
             position: absolute;
             bottom: 30px;
@@ -123,30 +141,24 @@
     </header>
 
     <div class="menu-container">
-        <!-- از عکس منوی خودتان استفاده می‌کنیم -->
         <img src="./menu-768x1187.webp" alt="منوی کافه">
-        <div class="hotspot" id="btn-espresso" title="مشاهده سفارش ۳ بعدی روی میز"></div>
+        <div class="hotspot" id="btn-espresso" title="مشاهده سفارش روی میز"></div>
     </div>
 
+    <!-- محیط نمایش دوربین + فنجان روی میز -->
     <div id="ar-camera-view">
         <button class="close-camera-btn" onclick="closeCamera()">بستن دوربین ✕</button>
         
+        <!-- تصویر زنده دوربین (میز واقعی) -->
         <video id="webcam" autoplay playsinline></video>
         
-        <!-- مدل سه‌بعدی استاندارد و پایدار فنجان اسپرسو -->
-        <model-viewer 
-            id="cup-3d-model"
-            src="https://modelviewer.dev/shared-assets/models/Cup.glb" 
-            alt="فنجان اسپرسو ۳ بعدی"
-            camera-controls
-            auto-rotate
-            shadow-intensity="1"
-            ar
-            ar-modes="webxr scene-viewer quick-load">
-        </model-viewer>
+        <!-- عکس باکیفیت اسپرسو که وسط میز شناور است -->
+        <div class="cup-overlay-wrapper">
+            <img id="espresso-photo" src="./how-to-have-ideal-espresso-coffee.webp" alt="اسپرسو روی میز">
+        </div>
 
         <div class="instruction-box">
-            ☕ فنجان ۳ بعدی: با انگشت بچرخانید یا زوم کنید
+            ☕ فنجان اسپرسو روی میز شما قرار گرفت
         </div>
     </div>
 
@@ -164,7 +176,7 @@
                 });
                 videoElement.srcObject = streamInstance;
             } catch (err) {
-                console.log('Camera permission or stream issue:', err);
+                console.log('Camera error:', err);
             }
         });
 
