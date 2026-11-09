@@ -42,6 +42,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         
+        /* کادر روی گزینه اسپرسو */
         .hotspot { 
             position: absolute; 
             top: 5%; 
@@ -52,57 +53,18 @@
             background: rgba(185, 150, 78, 0.25);
             cursor: pointer;
             border-radius: 6px;
-        }
-
-        #modal { 
-            display: none; 
-            position: fixed; 
-            inset: 0; 
-            background: rgba(0,0,0,0.85); 
-            z-index: 100;
+            display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-        }
-        .modal-content {
-            position: relative;
-            width: min(100%, 420px);
-            background: #1c1914;
-            border: 1px solid #b9964e;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-        }
-        model-viewer { 
-            width: 100%; 
-            height: 320px; 
-            background: #201c17;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-        .close-btn { 
-            position: absolute; 
-            top: 15px; 
-            left: 15px; 
-            color: #f4db98; 
-            background: transparent;
-            border: 1px solid #b9964e;
-            padding: 5px 10px;
-            border-radius: 6px;
-            cursor: pointer; 
         }
 
-        #ar-button {
-            background: #b9964e;
-            color: #14120f;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 20px;
-            font-weight: bold;
-            font-family: Tahoma, sans-serif;
-            cursor: pointer;
-            margin-top: 12px;
-            width: 100%;
+        /* پنهان کردن کامپوننت مدل سه‌بعدی از دید کاربر */
+        #hidden-viewer {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0.01;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -115,37 +77,30 @@
 
     <div class="menu-container">
         <img src="./menu.png" alt="منوی کافه">
-        <div class="hotspot" id="btn-espresso" title="اسپرسو"></div>
+        <!-- کلیک روی این بخش مستقیماً دوربین AR را باز می‌کند -->
+        <div class="hotspot" id="btn-espresso" title="مشاهده اسپرسو روی میز"></div>
     </div>
 
-    <div id="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="document.getElementById('modal').style.display='none'">بستن ✕</button>
-            <h3 style="margin: 0 0 10px 0; color: #f4db98;">فنجان اسپرسو</h3>
-            
-            <!-- استفاده از لینک امن و استاندارد سه‌بعدی برای تست قطعی -->
-            <model-viewer 
-                id="espresso-viewer"
-                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
-                ar
-                ar-modes="scene-viewer quick-look webxr"
-                camera-controls 
-                touch-action="pan-y"
-                auto-rotate 
-                shadow-intensity="1">
-                
-                <button slot="ar-button" id="ar-button">
-                    ✨ مشاهده روی میز (واقعیت افزوده)
-                </button>
-            </model-viewer>
-
-            <p style="font-size: 11px; color: #d1b87a; margin-top: 10px;">با گوشی روی دکمه بالا بزنید تا مدل روی میزتان ظاهر شود</p>
-        </div>
-    </div>
+    <!-- مدل سه‌بعدی پنهان که فقط برای فعال‌سازی مستقیم AR استفاده می‌شود -->
+    <model-viewer 
+        id="hidden-viewer"
+        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+        ar
+        ar-modes="scene-viewer quick-look webxr"
+        camera-controls>
+    </model-viewer>
 
     <script>
-        document.getElementById('btn-espresso').addEventListener('click', () => {
-            document.getElementById('modal').style.display = 'flex';
+        const espressoBtn = document.getElementById('btn-espresso');
+        const viewer = document.getElementById('hidden-viewer');
+
+        espressoBtn.addEventListener('click', () => {
+            // به محض کلیک روی اسپرسو، مستقیماً دوربین AR باز می‌شود
+            if (viewer.canActivateAR) {
+                viewer.activateAR();
+            } else {
+                alert('قابلیت AR روی این مرورگر یا دستگاه پشتیبانی نمی‌شود. لطفاً با گوشی موبایل امتحان کنید.');
+            }
         });
     </script>
 </body>
