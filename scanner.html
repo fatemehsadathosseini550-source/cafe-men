@@ -3,8 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>منوی سه‌بعدی و AR کافه لومیر</title>
-  <!-- کتابخانه استاندارد model-viewer گوگل برای قابلیت AR -->
+  <title>منوی کافه لومیر</title>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
   <style>
     * { box-sizing: border-box; }
@@ -13,6 +12,7 @@
       background: #14120f;
       color: #f4db98;
       font-family: Tahoma, sans-serif;
+      text-align: center;
     }
     header {
       padding: 14px 18px;
@@ -22,15 +22,12 @@
       background: #1c1914;
       border-bottom: 1px solid #b9964e;
     }
-    a { color: #f4db98; }
-    .hint {
-      margin: 16px;
-      text-align: center;
-      font-size: 14px;
-    }
+    a { color: #f4db98; text-decoration: none; }
+    .hint { margin: 12px; font-size: 14px; }
+    
     .menu-wrap {
       position: relative;
-      width: min(100%, 647px);
+      width: min(100%, 600px);
       margin: 0 auto;
     }
     .menu-wrap img {
@@ -38,136 +35,103 @@
       width: 100%;
       height: auto;
     }
-    /* ناحیه کلیک روی اسپرسو در منو */
     .espresso-hotspot {
       position: absolute;
       left: 61%;
       top: 5.5%;
       width: 32%;
       height: 18%;
-      border: 2px solid #b9964e;
-      border-radius: 12px;
-      background: rgba(185, 150, 78, 0.15);
+      border: 2px dashed #b9964e;
+      background: rgba(185, 150, 78, 0.2);
       cursor: pointer;
     }
-    .espresso-hotspot:active {
-      background: rgba(185, 150, 78, 0.4);
-    }
-    /* پنجره مودال نمایش مدل و AR */
+
     .viewer {
       position: fixed;
       inset: 0;
-      z-index: 10;
-      display: grid;
-      place-items: center;
-      padding: 16px;
-      background: rgba(0, 0, 0, 0.88);
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.85);
     }
     .viewer[hidden] { display: none; }
     .viewer-box {
-      width: min(100%, 500px);
+      width: min(100%, 450px);
       padding: 16px;
       border: 1px solid #b9964e;
-      border-radius: 18px;
+      border-radius: 16px;
       background: #1c1914;
-      text-align: center;
     }
     .viewer-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
-    .viewer-top h2 { margin: 0; font-size: 18px; }
     .close {
       padding: 6px 12px;
       color: #f4db98;
       background: transparent;
       border: 1px solid #b9964e;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
     }
-    /* تگ model-viewer برای چرخش و واقعیت افزوده روی میز */
     model-viewer {
       width: 100%;
-      height: 350px;
-      background-color: #26221c;
-      border-radius: 12px;
+      height: 360px;
+      background: #201c17;
+      border-radius: 10px;
     }
-    /* دکمه AR که روی گوشی ظاهر می‌شود */
-    #ar-button {
-      background: #b9964e;
-      color: #14120f;
-      border-radius: 8px;
-      border: none;
-      padding: 10px 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 12px;
-      font-family: Tahoma, sans-serif;
+    .info-text {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #d1b87a;
     }
   </style>
 </head>
 <body>
   <header>
-    <strong>منوی کافه لومیر</strong>
+    <strong>کافه لومیر</strong>
     <a href="./index.html">بازگشت</a>
   </header>
 
-  <p class="hint">روی بخش «اسپرسو» در منو بزن تا مدل و قابلیت قرار دادن روی میز باز شود.</p>
+  <p class="hint">روی کادر دور «اسپرسو» در منو کلیک کن:</p>
 
   <main class="menu-wrap">
-    <img src="./menu.png" alt="تصویر منوی کافه">
-    <button class="espresso-hotspot" id="espressoButton" type="button" aria-label="مدل سه‌بعدی اسپرسو"></button>
+    <img src="./menu.png" alt="منو">
+    <button class="espresso-hotspot" id="btnEspresso" type="button"></button>
   </main>
 
-  <div class="viewer" id="viewer" hidden>
-    <div class="viewer-box" role="dialog" aria-modal="true" aria-label="مدل سه‌بعدی اسپرسو">
+  <div class="viewer" id="modal" hidden>
+    <div class="viewer-box">
       <div class="viewer-top">
-        <h2>اسپرسو ☕</h2>
-        <button class="close" id="closeButton" type="button">بستن ×</button>
+        <h3 style="margin:0;">فنجان قهوه اسپرسو</h3>
+        <button class="close" id="btnClose">بستن ✕</button>
       </div>
 
-      <!-- فایل مدل استاندارد با قابلیت AR مجهز به موتور گوگل -->
+      <!-- نمایش مدل سه‌بعدی با قابلیت چرخش و زوم روان بدون خطای دوربین گوشی -->
       <model-viewer 
-        id="modelViewer"
         src="https://modelviewer.dev/shared-assets/models/CoffeeMug.glb"
-        ar
-        ar-modes="scene-viewer quick-look webxr"
         camera-controls
+        touch-action="pan-y"
         auto-rotate
         shadow-intensity="1">
-        
-        <button slot="ar-button" id="ar-button">
-          📱 مشاهده روی میز (AR)
-        </button>
       </model-viewer>
+
+      <div class="info-text">با انگشت خود مدل را بچرخانید یا زوم کنید</div>
     </div>
   </div>
 
   <script>
-    const viewer = document.getElementById("viewer");
-    const modelViewer = document.getElementById("modelViewer");
-
-    document.getElementById("espressoButton").addEventListener("click", () => {
-      viewer.hidden = false;
-      document.body.style.overflow = "hidden";
-    });
-
-    function closeViewer() {
-      viewer.hidden = true;
-      document.body.style.overflow = "";
-    }
-
-    document.getElementById("closeButton").addEventListener("click", closeViewer);
-
-    viewer.addEventListener("click", (event) => {
-      if (event.target === viewer) closeViewer();
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && !viewer.hidden) closeViewer();
-    });
+    const modal = document.getElementById('modal');
+    document.getElementById('btnEspresso').onclick = () => {
+      modal.hidden = false;
+    };
+    document.getElementById('btnClose').onclick = () => {
+      modal.hidden = true;
+    };
   </script>
 </body>
 </html>
