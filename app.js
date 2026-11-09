@@ -1,108 +1,69 @@
-const menuContainer = document.getElementById('menu-container');
-
-// لیست آیتم‌های منو
 const menuItems = [
     {
         id: 1,
         category: "hot",
         name: "کافه لاته ویژه",
         price: "۸۵,۰۰۰ تومان",
-        description: "ترکیبی بی‌نظیر از اسپرسو تازه و شیر بخاردهی شده با فوم ابریشمی.",
+        description: "ترکیبی بی‌نظیر از دبل شات اسپرسو و شیر مخملی شده با طراحی ویژه باریستا.",
         image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80",
         model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
     },
     {
         id: 2,
         category: "hot",
-        name: "اسپرسو دبل",
+        name: "اسپرسو دوبل",
         price: "۶۵,۰۰۰ تومان",
-        description: "قهوه خالص، غلیظ و پرانرژی با کرمای غنی و طعمی ماندگار.",
+        description: "عصاره‌گیری استاندارد با کرمای غلیظ فندقی و طعم‌یاد شکلات تلخ.",
         image: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80",
         model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
     },
     {
         id: 3,
         category: "cold",
-        name: "آیس لاته",
+        name: "آیس کارامل ماکیاتو",
         price: "۹۰,۰۰۰ تومان",
-        description: "ترکیب خنک و دلپذیر اسپرسو، شیر سرد و یخ، ایده‌آل برای روزهای گرم.",
+        description: "لایه‌های شیر خنک، وانیل و اسپرسو همراه با سس کارامل دست‌ساز.",
         image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=800&q=80",
         model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
     },
     {
         id: 4,
         category: "dessert",
-        name: "کیک شکلاتی مخصوص",
+        name: "کیک فاج شکلاتی",
         price: "۱۱۰,۰۰۰ تومان",
-        description: "کیک اسفنجی شکلاتی با لایه‌های گاناش و بافتی بسیار نرم و لذیذ.",
+        description: "کیک اسفنجی خیس شکلاتی با لایه‌های متراکم گاناش ۷۰٪ تلخ.",
         image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80",
         model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
     }
 ];
 
 function renderMenu(filter = 'all') {
-    menuContainer.innerHTML = '';
+    const container = document.getElementById('menuContainer');
+    container.innerHTML = '';
 
-    let htmlContent = `
-        <div class="filter-buttons">
-            <button class="filter-btn ${filter === 'all' ? 'active' : ''}" onclick="filterCategory('all')">همه</button>
-            <button class="filter-btn ${filter === 'hot' ? 'active' : ''}" onclick="filterCategory('hot')">☕ گرم</button>
-            <button class="filter-btn ${filter === 'cold' ? 'active' : ''}" onclick="filterCategory('cold')">🧊 سرد</button>
-            <button class="filter-btn ${filter === 'dessert' ? 'active' : ''}" onclick="filterCategory('dessert')">🍰 دسر</button>
-        </div>
-        <div class="items-grid">
-    `;
+    const filtered = filter === 'all' ? menuItems : menuItems.filter(i => i.category === filter);
 
-    const filteredItems = filter === 'all' ? menuItems : menuItems.filter(item => item.category === filter);
-
-    filteredItems.forEach(item => {
-        htmlContent += `
-            <div class="menu-card">
-                <div class="card-image-box">
-                    <img src="${item.image}" alt="${item.name}">
-                </div>
-                <div class="model-box">
-                    <model-viewer 
-                        src="${item.model}" 
-                        ar 
-                        ar-modes="webxr scene-viewer quick-look" 
-                        camera-controls 
-                        auto-rotate 
-                        shadow-intensity="1">
-                        <button slot="ar-button" class="custom-ar-button">
-                            🚀 نمایش واقعیت افزوده (AR)
-                        </button>
-                    </model-viewer>
-                </div>
-                <div class="card-info">
-                    <h2>${item.name}</h2>
-                    <div class="price">${item.price}</div>
-                    <p class="desc">${item.description}</p>
-                </div>
+    filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'menu-card';
+        card.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" class="menu-img">
+            <div class="menu-info">
+                <h3>${item.name}</h3>
+                <p class="price">${item.price}</p>
+                <p class="desc">${item.description}</p>
+                <model-viewer src="${item.model}" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate shadow-intensity="1" style="width: 100%; height: 180px; margin-top: 10px;"></model-viewer>
             </div>
         `;
+        container.appendChild(card);
     });
-
-    htmlContent += `</div>`;
-
-    htmlContent += `
-        <footer class="cafe-footer">
-            <div class="footer-content">
-                <h3>☕ کافه لومیر | Lumiere Cafe</h3>
-                <p>محیطی آرام و مدرن برای لحظات شما</p>
-                <div class="footer-info">
-                    <p>📍 آدرس: تهران، خیابان ولیعصر</p>
-                    <p>📞 تلفن سفارش: ۰۲۱-۸۸۸۸۸۸۸۸</p>
-                </div>
-            </div>
-        </footer>
-    `;
-
-    menuContainer.innerHTML = htmlContent;
 }
 
-window.filterCategory = function(category) {
+function filterMenu(category) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
     renderMenu(category);
-};
+}
 
+// لاول اولیه منو
 renderMenu('all');

@@ -1,214 +1,78 @@
-@import url('https://cdn.jsdelivr.net/gh/rastinfar/vazirmatn-font@v33.003/Vazirmatn-font-face.css');
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
+    background-color: #0f0f0f;
+    color: #f1f1f1;
     font-family: 'Vazirmatn', sans-serif;
-    direction: rtl;
-    background: linear-gradient(rgba(10, 10, 10, 0.85), rgba(15, 15, 15, 0.9)), 
-                url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1600&q=80');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    color: #fff;
-    min-height: 100vh;
+    padding-bottom: 40px;
 }
-
-header {
+.hero-header {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80') center/cover;
+    padding: 50px 20px;
     text-align: center;
-    padding: 40px 20px 20px 20px;
+    border-bottom: 2px solid #d4af37;
+}
+.hero-content h1 { color: #d4af37; font-size: 2.2rem; margin-bottom: 8px; }
+.hero-content p { color: #ccc; font-size: 0.95rem; }
+
+.scanner-link-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #d4af37, #997300);
+    color: #111;
+    padding: 12px 28px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 20px rgba(212,175,55,0.4);
 }
 
-header h1 {
-    font-size: 2.2rem;
-    color: #d4af37;
-    margin-bottom: 8px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-}
-
-header p {
-    color: #bbb;
-    font-size: 1rem;
-}
-
-main {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 15px;
-}
-
-/* دکمه‌های فیلتر */
-.filter-buttons {
+.category-nav {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-bottom: 25px;
-    flex-wrap: wrap;
+    margin: 20px 15px;
+    overflow-x: auto;
+    padding-bottom: 5px;
 }
-
-.filter-btn {
-    background: rgba(30, 30, 30, 0.7);
-    border: 1px solid rgba(212, 175, 55, 0.4);
+.cat-btn {
+    background: #1a1a1a;
+    border: 1px solid rgba(212, 175, 55, 0.3);
     color: #ccc;
     padding: 8px 20px;
-    border-radius: 25px;
+    border-radius: 20px;
+    font-family: 'Vazirmatn';
     cursor: pointer;
-    font-family: 'Vazirmatn', sans-serif;
-    font-size: 0.95rem;
-    backdrop-filter: blur(5px);
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
-
-.filter-btn:hover, .filter-btn.active {
+.cat-btn.active {
     background: #d4af37;
-    color: #121212;
+    color: #111;
     font-weight: bold;
     border-color: #d4af37;
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
-.items-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+.menu-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
-
-/* کارت منو شیشه‌ای و لوکس */
 .menu-card {
-    background: rgba(25, 25, 25, 0.75);
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    background: rgba(25, 25, 25, 0.85);
+    backdrop-filter: blur(12px);
     border-radius: 20px;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    margin-bottom: 25px;
     overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-    transition: transform 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
 }
-
-.menu-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(212, 175, 55, 0.6);
-}
-
-.card-image-box img {
+.menu-img {
     width: 100%;
-    height: 220px;
+    height: 200px;
     object-fit: cover;
-    display: block;
 }
-
-.model-box {
-    width: 100%;
-    height: 260px;
-    background: rgba(10, 10, 10, 0.5);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    position: relative;
-}
-
-model-viewer {
-    width: 100%;
-    height: 100%;
-}
-
-.custom-ar-button {
-    background: #d4af37;
-    color: #121212;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-family: 'Vazirmatn', sans-serif;
-    font-weight: bold;
-    cursor: pointer;
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    transition: background 0.3s ease;
-}
-
-.custom-ar-button:hover {
-    background: #f0c94d;
-}
-
-.card-info {
+.menu-info {
     padding: 20px;
-    text-align: right;
 }
-
-.card-info h2 {
-    font-size: 1.3rem;
-    color: #fff;
-    margin-bottom: 8px;
-}
-
-.card-info .price {
-    color: #d4af37;
-    font-size: 1.15rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.card-info .desc {
-    color: #aaa;
-    font-size: 0.9rem;
-    line-height: 1.6;
-}
-
-/* فوتر کافه */
-.cafe-footer {
-    margin-top: 50px;
-    background: rgba(15, 15, 15, 0.85);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    color: #ddd;
-    padding: 30px 20px 20px 20px;
-    border-radius: 20px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-}
-
-.cafe-footer h3 {
-    color: #d4af37;
-    margin-bottom: 10px;
-}
-
-.footer-info {
-    margin: 20px 0;
-    font-size: 0.9rem;
-    line-height: 2;
-    color: #bbb;
-}
-
-.footer-copy {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 15px;
-    font-size: 0.8rem;
-    color: #777;
-}
-
-/* دکمه لود مدل سه‌بعدی برای افزایش سرعت */
-.load-model-btn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(20, 20, 20, 0.85);
-    color: #d4af37;
-    border: 1px solid #d4af37;
-    padding: 10px 18px;
-    border-radius: 20px;
-    font-family: 'Vazirmatn', sans-serif;
-    font-size: 0.85rem;
-    cursor: pointer;
-    backdrop-filter: blur(5px);
-    transition: all 0.3s ease;
-}
-
-.load-model-btn:hover {
-    background: #d4af37;
-    color: #121212;
-}
+.menu-info h3 { color: #d4af37; font-size: 1.2rem; margin-bottom: 5px; }
+.price { color: #fff; font-weight: bold; margin-bottom: 10px; }
+.desc { color: #aaa; font-size: 0.85rem; line-height: 1.6; margin-bottom: 15px; }
