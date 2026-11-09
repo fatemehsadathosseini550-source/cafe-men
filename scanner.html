@@ -53,18 +53,45 @@
             background: rgba(185, 150, 78, 0.25);
             cursor: pointer;
             border-radius: 6px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        /* پنهان کردن کامپوننت مدل سه‌بعدی از دید کاربر */
-        #hidden-viewer {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            opacity: 0.01;
-            pointer-events: none;
+        /* استایل مدال پشتیبان برای گوشی‌هایی که AR ندارند */
+        #modal { 
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.85); 
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-content {
+            position: relative;
+            width: min(100%, 420px);
+            background: #1c1914;
+            border: 1px solid #b9964e;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        model-viewer { 
+            width: 100%; 
+            height: 320px; 
+            background: #201c17;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .close-btn { 
+            position: absolute; 
+            top: 15px; 
+            left: 15px; 
+            color: #f4db98; 
+            background: transparent;
+            border: 1px solid #b9964e;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer; 
         }
     </style>
 </head>
@@ -77,29 +104,57 @@
 
     <div class="menu-container">
         <img src="./menu.png" alt="منوی کافه">
-        <!-- کلیک روی این بخش مستقیماً دوربین AR را باز می‌کند -->
-        <div class="hotspot" id="btn-espresso" title="مشاهده اسپرسو روی میز"></div>
+        <!-- کلیک روی این بخش -->
+        <div class="hotspot" id="btn-espresso" title="مشاهده اسپرسو"></div>
     </div>
 
-    <!-- مدل سه‌بعدی پنهان که فقط برای فعال‌سازی مستقیم AR استفاده می‌شود -->
+    <!-- مودال پشتیبان برای گوشی‌های بدون AR یا آیفون‌های خاص -->
+    <div id="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="document.getElementById('modal').style.display='none'">بستن ✕</button>
+            <h3 style="margin: 0 0 10px 0; color: #f4db98;">فنجان اسپرسو</h3>
+            
+            <model-viewer 
+                id="espresso-viewer"
+                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+                ar
+                ar-modes="scene-viewer quick-look webxr"
+                camera-controls 
+                touch-action="pan-y"
+                auto-rotate 
+                shadow-intensity="1">
+            </model-viewer>
+
+            <p style="font-size: 11px; color: #d1b87a; margin-top: 10px;">مرورگر شما از واقعیت افزوده پشتیبانی نکرد؛ می‌توانید مدل را بچخشید.</p>
+        </div>
+    </div>
+
+    <!-- مدل اصلی پنهان برای اجرای مستقیم AR -->
     <model-viewer 
-        id="hidden-viewer"
+        id="main-ar-viewer"
         src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
         ar
         ar-modes="scene-viewer quick-look webxr"
-        camera-controls>
+        style="display: none;">
     </model-viewer>
 
     <script>
         const espressoBtn = document.getElementById('btn-espresso');
-        const viewer = document.getElementById('hidden-viewer');
+        const mainViewer = document.getElementById('main-ar-viewer');
+        const modal = document.getElementById('modal');
 
-        espressoBtn.addEventListener('click', () => {
-            // به محض کلیک روی اسپرسو، مستقیماً دوربین AR باز می‌شود
-            if (viewer.canActivateAR) {
-                viewer.activateAR();
+        espressoBtn.addEventListener('click', async () => {
+            // اول چک می‌کنیم آیا گوشی قابلیت AR را دارد یا خیر
+            if (mainViewer.canActivateAR) {
+                try {
+                    await mainViewer.activateAR();
+                } catch (error) {
+                    // اگر به هر دلیلی خطا داد، مدال پشتیبان را باز کن
+                    modal.style.display = 'flex';
+                }
             } else {
-                alert('قابلیت AR روی این مرورگر یا دستگاه پشتیبانی نمی‌شود. لطفاً با گوشی موبایل امتحان کنید.');
+                // اگر گوشی AR نداشت، مدل را در مدال نمایشی به کاربر نشان بده
+                modal.style.display = 'flex';
             }
         });
     </script>
