@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منوی کافه لومیر - مدل ۳ بعدی روی میز</title>
+    <title>کافه لومیر - مدل ۳ بعدی روی میز</title>
     
-    <!-- لودر رسمی گوگل برای مدل‌های سه بعدی -->
+    <!-- لودر رسمی مدل‌ویور گوگل -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
     <style>
@@ -44,7 +44,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         
-        /* کادر روی گزینه اسپرسو در منو */
         .hotspot { 
             position: absolute; 
             top: 5%; 
@@ -57,7 +56,6 @@
             border-radius: 6px;
         }
 
-        /* لایه کامل دوربین زنده */
         #ar-camera-view {
             display: none;
             position: fixed;
@@ -75,14 +73,12 @@
             z-index: 1;
         }
 
-        /* مدل سه بعدی شفاف روی تصویر زنده دوربین */
         #cup-3d-model {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             z-index: 2;
-            --poster-color: transparent;
             background-color: transparent;
         }
 
@@ -127,33 +123,30 @@
     </header>
 
     <div class="menu-container">
-        <img src="./menu.png" alt="منوی کافه">
+        <!-- از عکس منوی خودتان استفاده می‌کنیم -->
+        <img src="./menu-768x1187.webp" alt="منوی کافه">
         <div class="hotspot" id="btn-espresso" title="مشاهده سفارش ۳ بعدی روی میز"></div>
     </div>
 
-    <!-- محیط نمایش دوربین + مدل سه بعدی واقعی -->
     <div id="ar-camera-view">
         <button class="close-camera-btn" onclick="closeCamera()">بستن دوربین ✕</button>
         
-        <!-- تصویر پس‌زمینه زنده دوربین (میز واقعی) -->
         <video id="webcam" autoplay playsinline></video>
         
-        <!-- مدل ۳ بعدی فنجان اسپرسو با قابلیت چرخش ۳۶۰ درجه و زوم -->
+        <!-- مدل سه‌بعدی استاندارد و پایدار فنجان اسپرسو -->
         <model-viewer 
             id="cup-3d-model"
-            src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/CoffeeCup/glTF-Binary/CoffeeCup.glb" 
+            src="https://modelviewer.dev/shared-assets/models/Cup.glb" 
             alt="فنجان اسپرسو ۳ بعدی"
             camera-controls
             auto-rotate
-            shadow-intensity="1.5"
-            shadow-softness="1"
-            exposure="1"
+            shadow-intensity="1"
             ar
-            ar-modes="webxr scene-viewer quick-look">
+            ar-modes="webxr scene-viewer quick-load">
         </model-viewer>
 
         <div class="instruction-box">
-            ☕ مدل ۳ بعدی فنجان روی میز: با انگشت بچرخانید و زوم کنید
+            ☕ فنجان ۳ بعدی: با انگشت بچرخانید یا زوم کنید
         </div>
     </div>
 
@@ -161,20 +154,17 @@
         const espressoBtn = document.getElementById('btn-espresso');
         const cameraView = document.getElementById('ar-camera-view');
         const videoElement = document.getElementById('webcam');
-
         let streamInstance = null;
 
         espressoBtn.addEventListener('click', async () => {
             cameraView.style.display = 'block';
             try {
-                // فعال‌سازی دوربین عقب گوشی
                 streamInstance = await navigator.mediaDevices.getUserMedia({ 
                     video: { facingMode: { ideal: 'environment' } } 
                 });
                 videoElement.srcObject = streamInstance;
             } catch (err) {
-                console.warn('دسترسی به دوربین داده نشد:', err);
-                // حتی اگر کاربر دسترسی دوربین نداد، مدل سه بعدی در صفحه باز می‌ماند
+                console.log('Camera permission or stream issue:', err);
             }
         });
 
