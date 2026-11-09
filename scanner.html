@@ -55,7 +55,7 @@
             border-radius: 6px;
         }
 
-        /* استایل مدال پشتیبان برای گوشی‌هایی که AR ندارند */
+        /* استایل مدال پشتیبان برای گوشی‌های بدون AR */
         #modal { 
             display: none; 
             position: fixed; 
@@ -108,14 +108,24 @@
         <div class="hotspot" id="btn-espresso" title="مشاهده اسپرسو"></div>
     </div>
 
-    <!-- مودال پشتیبان برای گوشی‌های بدون AR یا آیفون‌های خاص -->
+    <!-- تگ Model-Viewer اصلی برای اجرای مستقیم AR روی میز -->
+    <model-viewer 
+        id="ar-viewer"
+        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+        ar
+        ar-modes="scene-viewer quick-look webxr"
+        camera-controls 
+        style="display: none;">
+    </model-viewer>
+
+    <!-- مودال پشتیبان برای گوشی‌هایی که AR ندارند -->
     <div id="modal">
         <div class="modal-content">
             <button class="close-btn" onclick="document.getElementById('modal').style.display='none'">بستن ✕</button>
             <h3 style="margin: 0 0 10px 0; color: #f4db98;">فنجان اسپرسو</h3>
             
             <model-viewer 
-                id="espresso-viewer"
+                id="modal-viewer"
                 src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
                 ar
                 ar-modes="scene-viewer quick-look webxr"
@@ -125,35 +135,26 @@
                 shadow-intensity="1">
             </model-viewer>
 
-            <p style="font-size: 11px; color: #d1b87a; margin-top: 10px;">مرورگر شما از واقعیت افزوده پشتیبانی نکرد؛ می‌توانید مدل را بچخشید.</p>
+            <p style="font-size: 11px; color: #d1b87a; margin-top: 10px;">مرورگر شما قابلیت نمایش مستقیم روی میز را نداشت؛ می‌توانید مدل را بچخشید.</p>
         </div>
     </div>
 
-    <!-- مدل اصلی پنهان برای اجرای مستقیم AR -->
-    <model-viewer 
-        id="main-ar-viewer"
-        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
-        ar
-        ar-modes="scene-viewer quick-look webxr"
-        style="display: none;">
-    </model-viewer>
-
     <script>
         const espressoBtn = document.getElementById('btn-espresso');
-        const mainViewer = document.getElementById('main-ar-viewer');
+        const arViewer = document.getElementById('ar-viewer');
         const modal = document.getElementById('modal');
 
         espressoBtn.addEventListener('click', async () => {
-            // اول چک می‌کنیم آیا گوشی قابلیت AR را دارد یا خیر
-            if (mainViewer.canActivateAR) {
+            // بررسی اینکه آیا دستگاه قابلیت اجرای AR را دارد یا خیر
+            if (arViewer.canActivateAR) {
                 try {
-                    await mainViewer.activateAR();
-                } catch (error) {
-                    // اگر به هر دلیلی خطا داد، مدال پشتیبان را باز کن
-                    modal.style.display = 'flex';
+                    await arViewer.activateAR();
+                } catch (err) {
+                    // اگر کاربر دکمه لغو را زد یا خطایی رخ داد، کار خاصی نکن یا مودال را باز کن
+                    console.log(err);
                 }
             } else {
-                // اگر گوشی AR نداشت، مدل را در مدال نمایشی به کاربر نشان بده
+                // اگر گوشی AR نداشت، مدال چرخش سه‌بعدی باز شود
                 modal.style.display = 'flex';
             }
         });
