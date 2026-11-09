@@ -35,6 +35,7 @@
       width: 100%;
       height: auto;
     }
+    /* کادر کلیک روی اسپرسو (متناسب با عکس webp) */
     .espresso-hotspot {
       position: absolute;
       left: 61%;
@@ -42,7 +43,7 @@
       width: 32%;
       height: 18%;
       border: 2px dashed #b9964e;
-      background: rgba(185, 150, 78, 0.2);
+      background: rgba(185, 150, 78, 0.25);
       cursor: pointer;
     }
 
@@ -97,21 +98,21 @@
     <a href="./index.html">بازگشت</a>
   </header>
 
-  <p class="hint">روی کادر دور «اسپرسو» در منو کلیک کن:</p>
+  <p class="hint">روی کادر خط‌چین دور «اسپرسو» کلیک کن:</p>
 
   <main class="menu-wrap">
-    <img src="./menu.png" alt="منو">
-    <button class="espresso-hotspot" id="btnEspresso" type="button"></button>
+    <!-- استفاده از نام صحیح فایل عکس موجود در پروژه -->
+    <img src="./menu-768x1187.webp" alt="منوی کافه">
+    <button class="espresso-hotspot" id="btnEspresso" type="button" aria-label="اسپرسو"></button>
   </main>
 
   <div class="viewer" id="modal" hidden>
     <div class="viewer-box">
       <div class="viewer-top">
         <h3 style="margin:0;">فنجان قهوه اسپرسو</h3>
-        <button class="close" id="btnClose">بستن ✕</button>
+        <button class="close" id="btnClose" type="button">بستن ✕</button>
       </div>
 
-      <!-- نمایش مدل سه‌بعدی با قابلیت چرخش و زوم روان بدون خطای دوربین گوشی -->
       <model-viewer 
         src="https://modelviewer.dev/shared-assets/models/CoffeeMug.glb"
         camera-controls
@@ -120,18 +121,26 @@
         shadow-intensity="1">
       </model-viewer>
 
-      <div class="info-text">با انگشت خود مدل را بچرخانید یا زوم کنید</div>
+      <div class="info-text">با انگشت خود مدل را بچرخانید</div>
     </div>
   </div>
 
   <script>
     const modal = document.getElementById('modal');
-    document.getElementById('btnEspresso').onclick = () => {
+    const btnEspresso = document.getElementById('btnEspresso');
+    const btnClose = document.getElementById('btnClose');
+
+    btnEspresso.addEventListener('click', () => {
       modal.hidden = false;
-    };
-    document.getElementById('btnClose').onclick = () => {
+    });
+
+    btnClose.addEventListener('click', () => {
       modal.hidden = true;
-    };
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.hidden = true;
+    });
   </script>
 </body>
 </html>
