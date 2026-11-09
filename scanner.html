@@ -1,48 +1,83 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
-    <title>اسکنر AR منوی کاغذی | کافه لومیر</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اسکنر AR منوی کاغذی - کافه لومیر</title>
+    <!-- A-Frame و MindAR -->
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastinfar/vazirmatn-font@v33.003/Vazirmatn-font-face.css">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <style>
-        body { margin: 0; overflow: hidden; font-family: 'Vazirmatn', sans-serif; }
-        .top-nav { position: fixed; top: 20px; right: 20px; left: 20px; display: flex; justify-content: space-between; z-index: 1000; }
-        .back-btn { background: rgba(0, 0, 0, 0.75); border: 1px solid #d4af37; color: #d4af37; padding: 8px 18px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; font-weight: bold; }
-        .scan-guide { position: fixed; top: 75px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.7); color: #fff; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; z-index: 1000; border: 1px solid rgba(255,255,255,0.2); white-space: nowrap; }
-        .items-selector { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; background: rgba(18, 18, 18, 0.85); backdrop-filter: blur(10px); padding: 10px 14px; border-radius: 35px; border: 1px solid #d4af37; z-index: 1000; width: 90%; max-width: 450px; overflow-x: auto; }
-        .select-btn { background: #2a2a2a; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-family: 'Vazirmatn'; font-size: 0.8rem; white-space: nowrap; cursor: pointer; }
-        .select-btn.active { background: #d4af37; color: #111; font-weight: bold; border-color: #d4af37; }
+        body {
+            margin: 0;
+            font-family: 'Vazirmatn', sans-serif;
+            overflow: hidden;
+        }
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            background: rgba(0, 0, 0, 0.7);
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+        .instructions {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 14px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            width: 80%;
+            max-width: 320px;
+            backdrop-filter: blur(10px);
+        }
     </style>
 </head>
 <body>
-    <div class="top-nav">
-        <a href="index.html" class="back-btn">✕ خروج از اسکنر</a>
-    </div>
-    <div class="scan-guide">📄 دوربین را به سمت برگه منو بگیرید</div>
 
-    <div class="items-selector">
-        <button class="select-btn active" onclick="switchItem('https://modelviewer.dev/shared-assets/models/Astronaut.glb', this)">☕ کافه لاته</button>
-        <button class="select-btn" onclick="switchItem('https://modelviewer.dev/shared-assets/models/Astronaut.glb', this)">☕ اسپرسو</button>
-        <button class="select-btn" onclick="switchItem('https://modelviewer.dev/shared-assets/models/Astronaut.glb', this)">🧊 آیس لاته</button>
-        <button class="select-btn" onclick="switchItem('https://modelviewer.dev/shared-assets/models/Astronaut.glb', this)">🍰 کیک شکلاتی</button>
+    <a href="index.html" class="back-btn">← بازگشت به منو</a>
+
+    <div class="instructions">
+        دوربین را به سمت تصویر کارت تست (یا کارت نمونه روی لپ‌تاپ) بگیرید تا فنجان ظاهر شود.
     </div>
 
-    <a-scene mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <!-- صحنه AR با MindAR -->
+    <a-scene mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind;" 
+             color-space="sRGB" 
+             renderer="colorManagement: true, physicallyCorrectLights: true" 
+             vr-mode-ui="enabled: false" 
+             device-orientation-permission-ui="enabled: false">
+        
+        <a-assets>
+            <!-- مدل سه‌بعدی نمونه (فنجان یا آیتم کافه) -->
+            <a-asset-item id="coffeeModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/softmind/scene.gltf"></a-asset-item>
+        </a-assets>
+
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+        <!-- اتصال مدل به تارگت شماره 0 -->
         <a-entity mindar-image-target="targetIndex: 0">
-            <a-gltf-model id="arModel" src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" position="0 0 0" scale="0.15 0.15 0.15" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 8000"></a-gltf-model>
+            <a-gltf-model src="#coffeeModel" 
+                          position="0 0 0.1" 
+                          scale="0.005 0.005 0.005" 
+                          rotation="0 180 0">
+            </a-gltf-model>
         </a-entity>
     </a-scene>
 
-    <script>
-        function switchItem(modelUrl, btn) {
-            document.querySelectorAll('.select-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById('arModel').setAttribute('src', modelUrl);
-        }
-    </script>
 </body>
 </html>
