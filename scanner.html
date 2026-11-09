@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منوی کافه لومیر</title>
-    <!-- Model Viewer CDN -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <title>منوی کافه لومیر - سفارش روی میز</title>
     <style>
         * { box-sizing: border-box; }
         body { 
@@ -42,37 +40,76 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         
-        /* کادر روی گزینه اسپرسو که مستقیماً دکمه AR را روی آن قرار می‌دهیم */
-        .ar-hotspot {
-            position: absolute;
-            top: 5%;
-            left: 60%;
-            width: 32%;
-            height: 18%;
-            background: transparent;
+        /* کادر روی گزینه اسپرسو در منو */
+        .hotspot { 
+            position: absolute; 
+            top: 5%; 
+            left: 60%; 
+            width: 32%; 
+            height: 18%; 
             border: 2px dashed #b9964e;
-            border-radius: 6px;
+            background: rgba(185, 150, 78, 0.25);
             cursor: pointer;
-            padding: 0;
+            border-radius: 6px;
         }
 
-        /* استایل دکمه AR داخلی برای اینکه دقیقاً کل کادر اسپرسو را پوشش دهد */
-        model-viewer {
+        /* محیط نمایش دوربین و فنجان واقعی روی میز */
+        #ar-camera-view {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 999;
+            overflow: hidden;
+        }
+        #webcam {
+            position: absolute;
             width: 100%;
             height: 100%;
-            background: transparent;
-            border-radius: 6px;
+            object-fit: cover;
+            z-index: 1;
         }
-
-        /* استایل دکمه پیش‌فرض AR گوگل که روی منو قرار می‌گیرد */
-        ::part(button) {
-            background-color: #b9964e;
+        /* تصویر واقعی و باکیفیت فنجان اسپرسو که روی میز قرار می‌گیرد */
+        #real-cup {
+            position: absolute;
+            width: 250px;
+            cursor: grab;
+            z-index: 2;
+            user-select: none;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.7));
+            transform-origin: center center;
+            transition: transform 0.1s ease;
+        }
+        .close-camera-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            background: #b9964e;
             color: #14120f;
-            border-radius: 4px;
             border: none;
-            font-family: Tahoma, sans-serif;
-            font-size: 11px;
-            padding: 4px 8px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .instruction-box {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background: rgba(28, 25, 20, 0.9);
+            border: 1px solid #b9964e;
+            color: #f4db98;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 13px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -85,23 +122,101 @@
 
     <div class="menu-container">
         <img src="./menu.png" alt="منوی کافه">
+        <!-- کلیک روی اسپرسو -->
+        <div class="hotspot" id="btn-espresso" title="مشاهده سفارش روی میز"></div>
+    </div>
+
+    <!-- محیط دوربین برای دیدن سفارش واقعی روی میز -->
+    <div id="ar-camera-view">
+        <button class="close-camera-btn" onclick="closeCamera()">بستن دوربین ✕</button>
         
-        <!-- استفاده از خود model-viewer به عنوان کادر روی اسپرسو با قابلیت AR سراسری -->
-        <div class="ar-hotspot">
-            <model-viewer 
-                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
-                ar
-                ar-modes="scene-viewer quick-look webxr"
-                camera-controls
-                touch-action="pan-y">
-                
-                <!-- دکمه‌ای که با زدن روی آن در هر گوشی (اندروید/آیفون) ابزار AR باز می‌شود -->
-                <button slot="ar-button" style="width: 100%; height: 100%; background: rgba(185, 150, 78, 0.3); border: 2px dashed #b9964e; border-radius: 6px; cursor: pointer; color: #fff; font-size: 12px; font-weight: bold;">
-                    مشاهده روی میز ☕
-                </button>
-            </model-viewer>
+        <!-- تصویر زنده دوربین پشت گوشی -->
+        <video id="webcam" autoplay playsinline></video>
+        
+        <!-- فنجان اسپرسو واقعی که روی میز ظاهر می‌شود -->
+        <img id="real-cup" src="image_gen_b7dc057e-b1ce-4173-9f95-a99cd9f7d7df_0.webp" alt="اسپرسوی واقعی روی میز">
+
+        <div class="instruction-box">
+            ☕ فنجان سفارش داده شده روی میز شماست (قابل جابجایی با انگشت)
         </div>
     </div>
 
+    <script>
+        const espressoBtn = document.getElementById('btn-espresso');
+        const cameraView = document.getElementById('ar-camera-view');
+        const videoElement = document.getElementById('webcam');
+        const cup = document.getElementById('real-cup');
+
+        let streamInstance = null;
+
+        // روشن کردن دوربین به محض کلیک روی اسپرسو در هر گوشی
+        espressoBtn.addEventListener('click', async () => {
+            cameraView.style.display = 'block';
+            try {
+                streamInstance = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: 'environment' } 
+                });
+                videoElement.srcObject = streamInstance;
+            } catch (err) {
+                alert('لطفاً دسترسی به دوربین را تایید کنید.');
+                cameraView.style.display = 'none';
+            }
+        });
+
+        function closeCamera() {
+            if (streamInstance) {
+                streamInstance.getTracks().forEach(track => track.stop());
+            }
+            cameraView.style.display = 'none';
+        }
+
+        // تنظیم موقعیت اولیه فنجان در وسط صفحه (روی میز)
+        window.addEventListener('load', () => {
+            cup.style.left = (window.innerWidth / 2 - 125) + 'px';
+            cup.style.top = (window.innerHeight / 2 - 125) + 'px';
+        });
+
+        // قابلیت کشیدن و جابجایی فنجان با انگشت روی میز
+        let isDragging = false;
+        let startX, startY, initialX = window.innerWidth / 2 - 125, initialY = window.innerHeight / 2 - 125;
+
+        cup.addEventListener('touchstart', dragStart, {passive: true});
+        cup.addEventListener('mousedown', dragStart);
+
+        function dragStart(e) {
+            isDragging = true;
+            startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+            startY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+            
+            document.addEventListener('touchmove', dragMove, {passive: true});
+            document.addEventListener('mousemove', dragMove);
+            document.addEventListener('touchend', dragEnd);
+            document.addEventListener('mouseup', dragEnd);
+        }
+
+        function dragMove(e) {
+            if (!isDragging) return;
+            let currentX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            let currentY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+            let dx = currentX - startX;
+            let dy = currentY - startY;
+
+            cup.style.left = (initialX + dx) + 'px';
+            cup.style.top = (initialY + dy) + 'px';
+        }
+
+        function dragEnd() {
+            isDragging = false;
+            let rect = cup.getBoundingClientRect();
+            initialX = rect.left;
+            initialY = rect.top;
+
+            document.removeEventListener('touchmove', dragMove);
+            document.removeEventListener('mousemove', dragMove);
+            document.removeEventListener('touchend', dragEnd);
+            document.removeEventListener('mouseup', dragEnd);
+        }
+    </script>
 </body>
 </html>
