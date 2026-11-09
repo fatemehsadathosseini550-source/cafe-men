@@ -1,146 +1,153 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>منوی کافه لومیر</title>
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: #14120f;
-      color: #f4db98;
-      font-family: Tahoma, sans-serif;
-      text-align: center;
-    }
-    header {
-      padding: 14px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #1c1914;
-      border-bottom: 1px solid #b9964e;
-    }
-    a { color: #f4db98; text-decoration: none; }
-    .hint { margin: 12px; font-size: 14px; }
-    
-    .menu-wrap {
-      position: relative;
-      width: min(100%, 600px);
-      margin: 0 auto;
-    }
-    .menu-wrap img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-    /* کادر کلیک روی اسپرسو (متناسب با عکس webp) */
-    .espresso-hotspot {
-      position: absolute;
-      left: 61%;
-      top: 5.5%;
-      width: 32%;
-      height: 18%;
-      border: 2px dashed #b9964e;
-      background: rgba(185, 150, 78, 0.25);
-      cursor: pointer;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منوی کافه لومیر</title>
+    <!-- Model Viewer -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background: #14120f; 
+            color: #f4db98;
+            font-family: Tahoma, sans-serif;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        header {
+            width: 100%;
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1c1914;
+            border-bottom: 1px solid #b9964e;
+        }
+        header a { color: #f4db98; text-decoration: none; }
+        
+        .menu-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 500px; 
+            margin: 20px auto;
+        }
+        .menu-container img { 
+            width: 100%; 
+            display: block; 
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        
+        .hotspot { 
+            position: absolute; 
+            top: 5%; 
+            left: 60%; 
+            width: 32%; 
+            height: 18%; 
+            border: 2px dashed #b9964e;
+            background: rgba(185, 150, 78, 0.25);
+            cursor: pointer;
+            border-radius: 6px;
+        }
 
-    .viewer {
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 15px;
-      background: rgba(0, 0, 0, 0.85);
-    }
-    .viewer[hidden] { display: none; }
-    .viewer-box {
-      width: min(100%, 450px);
-      padding: 16px;
-      border: 1px solid #b9964e;
-      border-radius: 16px;
-      background: #1c1914;
-    }
-    .viewer-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .close {
-      padding: 6px 12px;
-      color: #f4db98;
-      background: transparent;
-      border: 1px solid #b9964e;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    model-viewer {
-      width: 100%;
-      height: 360px;
-      background: #201c17;
-      border-radius: 10px;
-    }
-    .info-text {
-      margin-top: 10px;
-      font-size: 13px;
-      color: #d1b87a;
-    }
-  </style>
+        #modal { 
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.85); 
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-content {
+            position: relative;
+            width: min(100%, 420px);
+            background: #1c1914;
+            border: 1px solid #b9964e;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        model-viewer { 
+            width: 100%; 
+            height: 320px; 
+            background: #201c17;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .close-btn { 
+            position: absolute; 
+            top: 15px; 
+            left: 15px; 
+            color: #f4db98; 
+            background: transparent;
+            border: 1px solid #b9964e;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer; 
+        }
+
+        /* استایل دکمه جذاب برای نمایش روی میز */
+        #ar-button {
+            background: #b9964e;
+            color: #14120f;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: bold;
+            font-family: Tahoma, sans-serif;
+            cursor: pointer;
+            margin-top: 12px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <strong>کافه لومیر</strong>
-    <a href="./index.html">بازگشت</a>
-  </header>
 
-  <p class="hint">روی کادر خط‌چین دور «اسپرسو» کلیک کن:</p>
+    <header>
+        <strong>کافه لومیر</strong>
+        <a href="./index.html">بازگشت</a>
+    </header>
 
-  <main class="menu-wrap">
-    <!-- استفاده از نام صحیح فایل عکس موجود در پروژه -->
-    <img src="./menu-768x1187.webp" alt="منوی کافه">
-    <button class="espresso-hotspot" id="btnEspresso" type="button" aria-label="اسپرسو"></button>
-  </main>
-
-  <div class="viewer" id="modal" hidden>
-    <div class="viewer-box">
-      <div class="viewer-top">
-        <h3 style="margin:0;">فنجان قهوه اسپرسو</h3>
-        <button class="close" id="btnClose" type="button">بستن ✕</button>
-      </div>
-
-      <model-viewer 
-        src="https://modelviewer.dev/shared-assets/models/CoffeeMug.glb"
-        camera-controls
-        touch-action="pan-y"
-        auto-rotate
-        shadow-intensity="1">
-      </model-viewer>
-
-      <div class="info-text">با انگشت خود مدل را بچرخانید</div>
+    <div class="menu-container">
+        <img src="./menu.png" alt="منوی کافه">
+        <div class="hotspot" id="btn-espresso" title="اسپرسو"></div>
     </div>
-  </div>
 
-  <script>
-    const modal = document.getElementById('modal');
-    const btnEspresso = document.getElementById('btnEspresso');
-    const btnClose = document.getElementById('btnClose');
+    <div id="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="document.getElementById('modal').style.display='none'">بستن ✕</button>
+            <h3 style="margin: 0 0 10px 0; color: #f4db98;">فنجان اسپرسو</h3>
+            
+            <!-- اضافه شدن قابلیت AR برای قرارگیری روی میز -->
+            <model-viewer 
+                id="espresso-viewer"
+                src="https://modelviewer.dev/shared-assets/models/CoffeeMug.glb" 
+                ar
+                ar-modes="scene-viewer quick-look webxr"
+                camera-controls 
+                touch-action="pan-y"
+                auto-rotate 
+                shadow-intensity="1">
+                
+                <button slot="ar-button" id="ar-button">
+                    ✨ مشاهده روی میز (واقعیت افزوده)
+                </button>
+            </model-viewer>
 
-    btnEspresso.addEventListener('click', () => {
-      modal.hidden = false;
-    });
+            <p style="font-size: 11px; color: #d1b87a; margin-top: 10px;">با گوشی روی دکمه بالا بزنید تا مدل روی میزتان ظاهر شود</p>
+        </div>
+    </div>
 
-    btnClose.addEventListener('click', () => {
-      modal.hidden = true;
-    });
-
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.hidden = true;
-    });
-  </script>
+    <script>
+        document.getElementById('btn-espresso').addEventListener('click', () => {
+            document.getElementById('modal').style.display = 'flex';
+        });
+    </script>
 </body>
 </html>
