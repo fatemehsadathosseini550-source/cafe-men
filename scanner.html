@@ -2,157 +2,134 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>اسکن منوی کافه | AR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>اسکنر AR کافه</title>
 
+  <!-- کتابخانه‌های A-Frame و MindAR -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
   <style>
-    html, body {
+    /* تنظیمات کلیدی برای جلوگیری از صفحه سیاه در اندروید و آیفون */
+    body, html {
+      margin: 0;
+      padding: 0;
       width: 100%;
       height: 100%;
-      margin: 0;
       overflow: hidden;
       background: #000;
-      font-family: Tahoma, sans-serif;
     }
 
-    /* اجبار به نمایش ویدیوی دوربین زیر المان‌های AR */
-    .mindar-ui-overlay {
+    /* اجبار به نمایش ویدیوی دوربین در زیر تمام المان‌ها برای تمام مرورگرها */
+    canvas {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 10 !important;
       background: transparent !important;
     }
-    
+
     video {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      min-width: 100% !important;
+      min-height: 100% !important;
       object-fit: cover !important;
+      z-index: 1 !important;
     }
 
+    /* دکمه بازگشت */
     #back {
       position: fixed;
       top: 16px;
       right: 16px;
-      z-index: 100000;
-      padding: 11px 16px;
+      z-index: 999999;
+      padding: 10px 18px;
       color: #f4db98;
-      background: rgba(20, 18, 15, .85);
+      background: rgba(20, 18, 15, 0.85);
       border: 1px solid #b9964e;
-      border-radius: 14px;
+      border-radius: 12px;
       text-decoration: none;
+      font-family: Tahoma, sans-serif;
+      font-size: 14px;
     }
 
+    /* کادر وضعیت پایین صفحه */
     #status {
       position: fixed;
-      bottom: 18px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 100000;
-      width: min(88vw, 430px);
-      box-sizing: border-box;
-      padding: 13px;
+      z-index: 999999;
+      width: min(90vw, 400px);
+      padding: 14px;
       color: white;
-      background: rgba(20, 18, 15, .88);
+      background: rgba(20, 18, 15, 0.9);
       border: 1px solid #b9964e;
-      border-radius: 15px;
+      border-radius: 14px;
       text-align: center;
-      line-height: 1.8;
-      pointer-events: none;
+      font-family: Tahoma, sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
     }
   </style>
 </head>
 
 <body>
   <a id="back" href="index.html">بازگشت به منو</a>
-  <div id="status">درخواست دسترسی به دوربین... لطفاً اجازه دهید.</div>
+  <div id="status">درخواست دسترسی به دوربین...</div>
 
+  <!-- صحنه AR -->
   <a-scene
-    mindar-image="imageTargetSrc: ./targets.mind; uiLoading: no; uiError: yes; uiScanning: yes;"
+    mindar-image="imageTargetSrc: ./targets.mind; uiLoading: yes; uiError: yes; uiScanning: yes;"
+    embedded
     color-space="sRGB"
-    renderer="colorManagement: true; physicallyCorrectLights: true"
+    renderer="colorManagement: true, physicallyCorrectLights: true"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: true">
 
-    <a-camera
-      position="0 0 0"
-      look-controls="enabled: false"
-      cursor="fuse: false; rayOrigin: mouse"
-      raycaster="objects: .clickable; far: 10000">
-    </a-camera>
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
+    <!-- هدف شناسایی منو (تارگت شماره ۰) -->
     <a-entity id="menu-target" mindar-image-target="targetIndex: 0">
-
-      <!-- دکمه‌های لمسی روی منو -->
-      <a-plane id="espresso-hit" class="clickable"
-        position="0.25 0.55 0.005" width="0.31" height="0.048"
-        material="color: #e5b95e; opacity: 0.4; transparent: true; side: double">
-      </a-plane>
-
-      <a-plane id="chocolate-hit" class="clickable"
-        position="0.25 0.16 0.005" width="0.31" height="0.048"
-        material="color: #e5b95e; opacity: 0.4; transparent: true; side: double">
-      </a-plane>
-
-      <a-plane id="cake-hit" class="clickable"
-        position="-0.15 -0.65 0.005" width="0.31" height="0.048"
-        material="color: #e5b95e; opacity: 0.4; transparent: true; side: double">
-      </a-plane>
-
-      <!-- مدل‌های سه‌بعدی محصولات -->
-      <a-entity id="espresso-model" visible="false" position="0.25 0.55 0">
-        <a-cylinder radius="0.05" height="0.06" color="#faf7ef" rotation="90 0 0"></a-cylinder>
-      </a-entity>
-
-      <a-entity id="chocolate-model" visible="false" position="0.25 0.16 0">
-        <a-box width="0.06" height="0.06" depth="0.06" color="#5b2c1d"></a-box>
-      </a-entity>
-
-      <a-entity id="cake-model" visible="false" position="-0.15 -0.65 0">
-        <a-box width="0.08" height="0.04" depth="0.08" color="#d44b59"></a-box>
-      </a-entity>
-
+      <!-- تست بصری روی منو (یک مکعب قرمز کوچک) -->
+      <a-box position="0 0 0.1" scale="0.1 0.1 0.1" color="#d44b59"></a-box>
     </a-entity>
   </a-scene>
 
   <script>
-    const statusBox = document.querySelector("#status");
-    const target = document.querySelector("#menu-target");
+    const statusBox = document.getElementById("status");
+    const target = document.getElementById("menu-target");
     const scene = document.querySelector("a-scene");
 
-    const choices = [
-      { hit: "espresso-hit", model: "espresso-model", name: "تک روبوستا" },
-      { hit: "chocolate-hit", model: "chocolate-model", name: "هات چاکلت" },
-      { hit: "cake-hit", model: "cake-model", name: "چیزکیک" }
-    ];
-
-    let menuVisible = false;
+    // چک کردن لحظه‌ای ویدیو برای اطمینان از نمایش در اندروید و آیفون
+    setInterval(() => {
+      const videoEl = document.querySelector("video");
+      if (videoEl) {
+        videoEl.style.display = "block";
+        videoEl.style.zIndex = "1";
+      }
+    }, 300);
 
     scene.addEventListener("arReady", () => {
-      statusBox.textContent = "دوربین آماده است؛ آن را به سمت عکس منو بگیرید.";
+      statusBox.textContent = "دوربین آماده است؛ منوی کافه را اسکن کنید.";
     });
 
     scene.addEventListener("arError", (e) => {
-      statusBox.textContent = "خطا در دسترسی به دوربین. لطفاً تنظیمات مرورگر را بررسی کنید.";
+      statusBox.textContent = "خطا در دسترسی به دوربین. لطفاً مجوز مرورگر را بررسی کنید.";
       console.error("AR Error:", e);
     });
 
     target.addEventListener("targetFound", () => {
-      menuVisible = true;
-      statusBox.textContent = "منو پیدا شد! روی گزینه‌ها در صفحه بزنید.";
+      statusBox.textContent = "منو پیدا شد! مدل سه‌بعدی ظاهر شد.";
     });
 
     target.addEventListener("targetLost", () => {
-      menuVisible = false;
-      statusBox.textContent = "منو از کادر خارج شد. دوربین را روی منو نگه دارید.";
-    });
-
-    choices.forEach(item => {
-      document.getElementById(item.hit).addEventListener("click", () => {
-        if (!menuVisible) return;
-        choices.forEach(other => {
-          document.getElementById(other.model).setAttribute("visible", "false");
-        });
-        document.getElementById(item.model).setAttribute("visible", "true");
-        statusBox.textContent = item.name + " انتخاب شد؛ مدل ظاهر شد.";
-      });
+      statusBox.textContent = "منو گم شد. دوربین را روی منو نگه دارید.";
     });
   </script>
 </body>
