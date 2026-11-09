@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منوی کافه لومیر</title>
-    <!-- Model Viewer -->
+    <!-- Model Viewer CDN -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
         * { box-sizing: border-box; }
@@ -92,13 +92,12 @@
             cursor: pointer; 
         }
 
-        /* استایل دکمه جذاب برای نمایش روی میز */
         #ar-button {
             background: #b9964e;
             color: #14120f;
             border: none;
             border-radius: 8px;
-            padding: 10px 20px;
+            padding: 12px 20px;
             font-weight: bold;
             font-family: Tahoma, sans-serif;
             cursor: pointer;
@@ -124,10 +123,10 @@
             <button class="close-btn" onclick="document.getElementById('modal').style.display='none'">بستن ✕</button>
             <h3 style="margin: 0 0 10px 0; color: #f4db98;">فنجان اسپرسو</h3>
             
-            <!-- اضافه شدن قابلیت AR برای قرارگیری روی میز -->
+            <!-- استفاده از لینک امن و استاندارد سه‌بعدی برای تست قطعی -->
             <model-viewer 
                 id="espresso-viewer"
-                src="https://modelviewer.dev/shared-assets/models/CoffeeMug.glb" 
+                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
                 ar
                 ar-modes="scene-viewer quick-look webxr"
                 camera-controls 
