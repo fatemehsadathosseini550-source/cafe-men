@@ -3,167 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>کافه لومیر - واقعیت افزوده واقعی روی میز</title>
-    
-    <!-- لودر رسمی مدل‌ویور گوگل برای AR استاندارد (مشابه ویدیو) -->
+    <title>کافه لومیر | منوی دیجیتال و AR</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastinfar/vazirmatn-font@v33.003/Vazirmatn-font-face.css">
+    <!-- Google Model Viewer برای نمایش مدل‌های سه‌بعدی -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+</head>
+<body>
 
+    <header class="hero-header">
+        <div class="hero-content">
+            <h1>کافه لومیر</h1>
+            <p>تجربه‌ای نوین از طعم و واقعیت افزوده</p>
+        </div>
+    </header>
+
+    <!-- دکمه ورود به اسکنر منوی کاغذی -->
+    <div style="text-align: center; margin: 20px auto;">
+        <a href="scanner.html" class="scanner-link-btn">
+            📸 اسکن هوشمند منوی کاغذی
+        </a>
+    </div>
+
+    <!-- فیلتر دسته‌بندی‌ها -->
+    <nav class="category-nav">
+        <button class="cat-btn active" onclick="filterMenu('all')">همه</button>
+        <button class="cat-btn" onclick="filterMenu('hot')">گرم</button>
+        <button class="cat-btn" onclick="filterMenu('cold')">سرد</button>
+        <button class="cat-btn" onclick="filterMenu('dessert')">دسر</button>
+    </nav>
+
+    <!-- لیست منو -->
+    <main class="menu-container" id="menuContainer">
+        <!-- آیتم‌ها به صورت پویا از app.js لود می‌شوند -->
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کافه لومیر | منوی واقعیت افزوده</title>
+    <!-- کتابخانه استاندارد نمایشگر سه‌بعدی و واقعیت افزوده -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
-        * { box-sizing: border-box; }
-        body { 
-            margin: 0; 
-            padding: 0; 
-            background: #14120f; 
-            color: #f4db98;
+        * {
+            box-sizing: border-box;
+        }
+        body {
             font-family: Tahoma, sans-serif;
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            min-height: 100vh;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
         }
-        header {
-            width: 100%;
-            padding: 14px 18px;
+        h1 {
+            color: #d4af37;
+            margin-bottom: 5px;
+        }
+        p.subtitle {
+            color: #888;
+            margin-top: 0;
+        }
+        .menu-container {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #1c1914;
-            border-bottom: 1px solid #b9964e;
-        }
-        header a { color: #f4db98; text-decoration: none; }
-        
-        .menu-container { 
-            position: relative; 
-            width: 100%; 
-            max-width: 500px; 
-            margin: 20px auto;
-        }
-        .menu-container img { 
-            width: 100%; 
-            display: block; 
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        
-        .hotspot { 
-            position: absolute; 
-            top: 5%; 
-            left: 60%; 
-            width: 32%; 
-            height: 18%; 
-            border: 2px dashed #b9964e;
-            background: rgba(185, 150, 78, 0.25);
-            cursor: pointer;
-            border-radius: 6px;
-        }
-
-        /* بخش نمایشگر مدل سه‌بعدی با قابلیت AR واقعی */
-        #ar-view-container {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #14120f;
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
         }
-
+        .menu-card {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 20px;
+            width: 320px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            border: 1px solid #333;
+        }
+        .menu-card h3 {
+            color: #d4af37;
+            margin-top: 0;
+        }
+        /* تنظیمات نمایشگر سه بعدی روی صفحه */
         model-viewer {
             width: 100%;
-            height: 80vh;
-            background-color: #14120f;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 10;
-            background: #b9964e;
-            color: #14120f;
-            border: none;
-            padding: 10px 18px;
+            height: 260px;
+            background-color: #242424;
             border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        /* دکمه اختصاصی AR */
+        .btn-ar {
+            background-color: #d4af37;
+            color: #000;
+            border: none;
+            padding: 12px 20px;
             font-weight: bold;
             font-size: 14px;
+            border-radius: 6px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            width: 100%;
+            transition: background 0.3s;
         }
-
-        /* دکمه اختصاصی ورود به محیط AR (دقیقاً مشابه دکمه‌های واقعیت افزوده گوگل/اپل) */
-        #ar-button {
-            background: #b9964e;
-            color: #14120f;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 30px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(185,150,78,0.4);
-            margin-bottom: 20px;
-        }
-
-        .hint {
-            color: #f4db98;
-            font-size: 13px;
-            text-align: center;
-            padding: 0 20px;
-            margin-bottom: 10px;
+        .btn-ar:hover {
+            background-color: #e6c55c;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <strong>کافه لومیر</strong>
-        <a href="./index.html">بازگشت</a>
-    </header>
+    <h1>کافه لومیر</h1>
+    <p class="subtitle">منوی هوشمند و واقعیت افزوده (AR)</p>
 
     <div class="menu-container">
-        <img src="./menu-768x1187.webp" alt="منوی کافه">
-        <div class="hotspot" id="btn-espresso" title="مشاهده سفارش در واقعیت افزوده"></div>
-    </div>
-
-    <!-- پنل واقعیت افزوده مشابه ویدیو -->
-    <div id="ar-view-container" style="display: none;">
-        <button class="close-btn" onclick="closeARView()">بستن ✕</button>
-        
-        <model-viewer 
-            id="espresso-model"
-            src="https://modelviewer.dev/shared-assets/models/Cup.glb" 
-            ios-src="https://modelviewer.dev/shared-assets/models/Cup.usdz"
-            alt="فنجان اسپرسو ۳ بعدی"
-            camera-controls
-            auto-rotate
-            shadow-intensity="1"
-            ar
-            ar-modes="scene-viewer quick-look webxr">
+        <!-- کارت کاپوچینو با مدل موجود در پوشه شما -->
+        <div class="menu-card">
+            <h3>کاپوچینو اختصاصی</h3>
+            <p>فنجان مخصوص کافه با عطر و طعم بی‌نظیر</p>
             
-            <!-- دکمه‌ای که مرورگر برای قرار دادن روی میز باز می‌کند -->
-            <button slot="ar-button" id="ar-button">
-                🚀 نمایش روی میز (AR)
-            </button>
-        </model-viewer>
-
-        <div class="hint">
-            روی گوشی موبایل، دکمه «نمایش روی میز» را بزنید تا فنجان دقیقاً روی میز واقعی شما ظاهر شود.
+            <!-- فایل cappuccino.glb مستقیماً فراخوانی شده است -->
+            <model-viewer 
+                src="cappuccino.glb" 
+                ar 
+                ar-modes="webxr scene-viewer quick-look" 
+                camera-controls 
+                auto-rotate
+                shadow-intensity="1"
+                alt="فنجان کاپوچینو اختصاصی کافه">
+                
+                <button slot="ar-button" class="btn-ar">
+                    🚀 مشاهده در واقعیت افزوده روی میز
+                </button>
+            </model-viewer>
         </div>
     </div>
 
-    <script>
-        const espressoBtn = document.getElementById('btn-espresso');
-        const arContainer = document.getElementById('ar-view-container');
-
-        espressoBtn.addEventListener('click', () => {
-            arContainer.style.display = 'flex';
-        });
-
-        function closeARView() {
-            arContainer.style.display = 'none';
-        }
-    </script>
 </body>
 </html>
