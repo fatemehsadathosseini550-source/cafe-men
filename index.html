@@ -3,144 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>کافه لومیر | منوی دیجیتال و AR</title>
+    <title>FAMAD Cafe | کافه فاماد</title>
+    <!-- بارگذاری فونت زیبا و مدرن وزیرمتن -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastinfar/vazirmatn-font@v33.003/Vazirmatn-font-face.css">
-    <!-- Google Model Viewer برای نمایش مدل‌های سه‌بعدی -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 </head>
 <body>
 
-    <header class="hero-header">
-        <div class="hero-content">
-            <h1>کافه لومیر</h1>
-            <p>تجربه‌ای نوین از طعم و واقعیت افزوده</p>
-        </div>
+    <!-- هدر ناوبری شیشه‌ای و مدرن -->
+    <header class="navbar">
+        <div class="logo">FAMAD <span>CAFE</span></div>
+        <nav>
+            <ul>
+                <li><a href="#home">صفحه اصلی</a></li>
+                <li><a href="#about">درباره ما</a></li>
+                <li><a href="#features">ویژگی‌ها</a></li>
+                <li><a href="#contact">تماس با ما</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- دکمه ورود به اسکنر منوی کاغذی -->
-    <div style="text-align: center; margin: 20px auto;">
-        <a href="scanner.html" class="scanner-link-btn">
-            📸 اسکن هوشمند منوی کاغذی
-        </a>
-    </div>
-
-    <!-- فیلتر دسته‌بندی‌ها -->
-    <nav class="category-nav">
-        <button class="cat-btn active" onclick="filterMenu('all')">همه</button>
-        <button class="cat-btn" onclick="filterMenu('hot')">گرم</button>
-        <button class="cat-btn" onclick="filterMenu('cold')">سرد</button>
-        <button class="cat-btn" onclick="filterMenu('dessert')">دسر</button>
-    </nav>
-
-    <!-- لیست منو -->
-    <main class="menu-container" id="menuContainer">
-        <!-- آیتم‌ها به صورت پویا از app.js لود می‌شوند -->
-    </main>
-
-    <script src="app.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>کافه لومیر | منوی واقعیت افزوده</title>
-    <!-- کتابخانه استاندارد نمایشگر سه‌بعدی و واقعیت افزوده -->
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Tahoma, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
-        h1 {
-            color: #d4af37;
-            margin-bottom: 5px;
-        }
-        p.subtitle {
-            color: #888;
-            margin-top: 0;
-        }
-        .menu-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 30px;
-        }
-        .menu-card {
-            background: #1e1e1e;
-            border-radius: 12px;
-            padding: 20px;
-            width: 320px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-            border: 1px solid #333;
-        }
-        .menu-card h3 {
-            color: #d4af37;
-            margin-top: 0;
-        }
-        /* تنظیمات نمایشگر سه بعدی روی صفحه */
-        model-viewer {
-            width: 100%;
-            height: 260px;
-            background-color: #242424;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        /* دکمه اختصاصی AR */
-        .btn-ar {
-            background-color: #d4af37;
-            color: #000;
-            border: none;
-            padding: 12px 20px;
-            font-weight: bold;
-            font-size: 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            transition: background 0.3s;
-        }
-        .btn-ar:hover {
-            background-color: #e6c55c;
-        }
-    </style>
-</head>
-<body>
-
-    <h1>کافه لومیر</h1>
-    <p class="subtitle">منوی هوشمند و واقعیت افزوده (AR)</p>
-
-    <div class="menu-container">
-        <!-- کارت کاپوچینو با مدل موجود در پوشه شما -->
-        <div class="menu-card">
-            <h3>کاپوچینو اختصاصی</h3>
-            <p>فنجان مخصوص کافه با عطر و طعم بی‌نظیر</p>
-            
-            <!-- فایل cappuccino.glb مستقیماً فراخوانی شده است -->
-            <model-viewer 
-                src="cappuccino.glb" 
-                ar 
-                ar-modes="webxr scene-viewer quick-look" 
-                camera-controls 
-                auto-rotate
-                shadow-intensity="1"
-                alt="فنجان کاپوچینو اختصاصی کافه">
-                
-                <button slot="ar-button" class="btn-ar">
-                    🚀 مشاهده در واقعیت افزوده روی میز
-                </button>
-            </model-viewer>
+    <!-- بخش اصلی شیک (Hero) -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-card">
+            <span class="sub-title">COFFEE & MOMENTS</span>
+            <h1>کافه فاماد</h1>
+            <p>طعمی اصیل از مرغوب‌ترین دانه‌های قهوه در فضایی گرم، دنج و آرام</p>
+            <div class="hero-buttons">
+                <!-- دکمه مشاهده عکس منو -->
+                <a href="images/menu.jpg" target="_blank" class="btn btn-primary">
+                    ☕ مشاهده منو
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    📍 آدرس و لوکیشن
+                </a>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- بخش ویژگی‌های کافه -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="feature-card">
+                <div class="icon">☕</div>
+                <h3>قهوه تخصصی</h3>
+                <p>دانه‌های دست‌چین و فرآوری تازه برای طعمی فراموش‌نشدنی</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📶</div>
+                <h3>اینترنت پرسرعت</h3>
+                <p>فضایی عالی برای کار، مطالعه و قرارهای کاری و دونفره</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🍰</div>
+                <h3>دسرهای روز</h3>
+                <p>شیرینی و کیک‌های تازه با بهترین مواد اولیه</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- درباره ما -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-box">
+                <h2>درباره FAMAD</h2>
+                <div class="divider"></div>
+                <p>
+                    فاماد فراتر از یک فنجان قهوه است؛ پناهگاهی برای فاصله گرفتن از شلوغی‌های روزمره، گپ زدن با دوستان و ساختن خاطرات دل‌چسب. ما میزبان لحظات خوش شما هستیم.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- اطلاعات تماس، لوکیشن و ساعت کاری -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="contact-wrapper">
+                <h2>ارتباط با کافه فاماد</h2>
+                <div class="divider"></div>
+
+                <div class="contact-grid">
+                    <div class="info-item">
+                        <span class="item-icon">📍</span>
+                        <h4>آدرس ما</h4>
+                        <p>[آدرس دقیق کافه فاماد را اینجا بنویسید]</p>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="item-icon">⏰</span>
+                        <h4>ساعت کاری</h4>
+                        <p>شنبه تا جمعه: ۸:۳۰ صبح الی ۲۳:۳۰ شب</p>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="item-icon">📞</span>
+                        <h4>شماره تماس</h4>
+                        <p dir="ltr">[شماره تماس کافه]</p>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="item-icon">📷</span>
+                        <h4>اینستاگرام</h4>
+                        <p><a href="#" class="insta-link">@famad.cafe</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
 
 </body>
 </html>

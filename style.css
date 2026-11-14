@@ -1,78 +1,330 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-    background-color: #0f0f0f;
-    color: #f1f1f1;
+/* ریست و فونت مدرن Vazirmatn */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: 'Vazirmatn', sans-serif;
-    padding-bottom: 40px;
+    scroll-behavior: smooth;
 }
-.hero-header {
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80') center/cover;
-    padding: 50px 20px;
-    text-align: center;
-    border-bottom: 2px solid #d4af37;
-}
-.hero-content h1 { color: #d4af37; font-size: 2.2rem; margin-bottom: 8px; }
-.hero-content p { color: #ccc; font-size: 0.95rem; }
 
-.scanner-link-btn {
-    display: inline-block;
-    background: linear-gradient(135deg, #d4af37, #997300);
-    color: #111;
-    padding: 12px 28px;
-    border-radius: 30px;
+:root {
+    --bg-cream: #FAF6F0;       /* کرم نود خیلی لطیف */
+    --card-bg: #FFFFFF;
+    --primary-coffee: #2C1810; /* قهوه‌ای اسپرسو سوخته و لوکس */
+    --medium-coffee: #4A2E1B;  /* قهوه‌ای گرم */
+    --caramel-gold: #C69963;   /* طلایی کاراملی زیبا */
+    --gold-hover: #b08550;
+    --text-muted: #6B5B52;     /* رنگ ملایم توضیحات */
+    --border-color: #EADBCE;
+}
+
+body {
+    background-color: var(--bg-cream);
+    color: var(--primary-coffee);
+    line-height: 1.8;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* هدر شیشه‌ای و چسبان */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: rgba(44, 24, 16, 0.92);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--caramel-gold);
+    letter-spacing: 3px;
+}
+
+.logo span {
+    font-size: 14px;
+    color: #eed9c4;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+.navbar nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.navbar nav ul li a {
+    color: #FAF6F0;
     text-decoration: none;
-    font-weight: 800;
-    font-size: 0.95rem;
-    box-shadow: 0 4px 20px rgba(212,175,55,0.4);
+    font-size: 15px;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    padding: 6px 12px;
+    border-radius: 6px;
 }
 
-.category-nav {
+.navbar nav ul li a:hover {
+    color: var(--caramel-gold);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* بخش اصلی (Hero) با عکس قهوه باکیفیت و جذاب */
+.hero {
+    position: relative;
+    min-height: 85vh;
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin: 20px 15px;
-    overflow-x: auto;
-    padding-bottom: 5px;
-}
-.cat-btn {
-    background: #1a1a1a;
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    color: #ccc;
-    padding: 8px 20px;
-    border-radius: 20px;
-    font-family: 'Vazirmatn';
-    cursor: pointer;
-    transition: 0.3s;
-}
-.cat-btn.active {
-    background: #d4af37;
-    color: #111;
-    font-weight: bold;
-    border-color: #d4af37;
+    align-items: center;
+    background: url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    text-align: center;
+    padding: 40px 20px;
 }
 
-.menu-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 0 15px;
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(44, 24, 16, 0.72) 0%, rgba(20, 10, 6, 0.9) 100%);
 }
-.menu-card {
-    background: rgba(25, 25, 25, 0.85);
-    backdrop-filter: blur(12px);
+
+.hero-card {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(198, 153, 99, 0.35);
+    padding: 45px 35px;
     border-radius: 20px;
-    border: 1px solid rgba(212, 175, 55, 0.25);
-    margin-bottom: 25px;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    max-width: 620px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
-.menu-img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+
+.sub-title {
+    color: var(--caramel-gold);
+    font-size: 13px;
+    letter-spacing: 4px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 12px;
 }
-.menu-info {
-    padding: 20px;
+
+.hero-card h1 {
+    font-size: 44px;
+    color: #FFFFFF;
+    font-weight: 800;
+    margin-bottom: 15px;
 }
-.menu-info h3 { color: #d4af37; font-size: 1.2rem; margin-bottom: 5px; }
-.price { color: #fff; font-weight: bold; margin-bottom: 10px; }
-.desc { color: #aaa; font-size: 0.85rem; line-height: 1.6; margin-bottom: 15px; }
+
+.hero-card p {
+    color: #E8D8C8;
+    font-size: 17px;
+    margin-bottom: 30px;
+    line-height: 1.9;
+}
+
+/* دکمه‌های شیک با سایه نرم */
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 13px 28px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--caramel-gold), #a67945);
+    color: #1a0e09;
+    box-shadow: 0 6px 20px rgba(198, 153, 99, 0.35);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(198, 153, 99, 0.5);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #FFFFFF;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #FFFFFF;
+    transform: translateY(-2px);
+}
+
+/* خط طلایی جداکننده */
+.divider {
+    width: 60px;
+    height: 3px;
+    background-color: var(--caramel-gold);
+    margin: 12px auto 25px auto;
+    border-radius: 2px;
+}
+
+/* کارت‌های ویژگی کافه */
+.features-section {
+    padding: 60px 0;
+    background-color: var(--bg-cream);
+}
+
+.features-section .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.feature-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 30px 25px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(44, 24, 16, 0.04);
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-card .icon {
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    font-size: 20px;
+    color: var(--primary-coffee);
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* درباره ما */
+.about-section {
+    padding: 65px 0;
+    background: #F1E9DF;
+    text-align: center;
+}
+
+.about-box {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.about-box h2 {
+    font-size: 30px;
+    color: var(--primary-coffee);
+}
+
+.about-box p {
+    font-size: 17px;
+    color: var(--medium-coffee);
+    line-height: 2;
+}
+
+/* تماس با ما و اطلاعات */
+.contact-section {
+    padding: 70px 0;
+}
+
+.contact-wrapper {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 45px 35px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 12px 30px rgba(44, 24, 16, 0.06);
+    text-align: center;
+}
+
+.contact-wrapper h2 {
+    font-size: 28px;
+    color: var(--primary-coffee);
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-top: 25px;
+    text-align: right;
+}
+
+.info-item {
+    background: var(--bg-cream);
+    padding: 22px;
+    border-radius: 12px;
+    border-right: 4px solid var(--caramel-gold);
+}
+
+.item-icon {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.info-item h4 {
+    font-size: 16px;
+    color: var(--primary-coffee);
+    margin-bottom: 6px;
+}
+
+.info-item p {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.insta-link {
+    color: var(--caramel-gold);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+/* فوتر لوکس */
+footer {
+    background-color: var(--primary-coffee);
+    color: #D3C3B5;
+    text-align: center;
+    padding: 24px 20px;
+    font-size: 14px;
+}
+
+/* هماهنگی با موبایل (Responsive) */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .hero-card {
+        padding: 30px 20px;
+    }
+    .hero-card h1 {
+        font-size: 32px;
+    }
+}
