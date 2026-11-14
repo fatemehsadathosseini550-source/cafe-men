@@ -1,211 +1,159 @@
-<!-- در قسمت بدنه (Body) فایل latte.html -->
-
-<div class="model-container">
-    <model-viewer 
-        id="coffee-model"
-        src="latte_macchiato.glb" 
-        ar 
-        ar-modes="webxr scene-viewer quick-look" 
-        camera-controls 
-        poster="poster.webp" 
-        shadow-intensity="1" 
-        auto-rotate 
-        style="width: 100%; height: 500px; background-color: #f5f5dc;">
-        
-        <!-- دکمه ورود به حالت AR برای موبایل -->
-        <button slot="ar-button" id="ar-button">
-            مشاهده در محیط شما (AR)
-        </button>
-
-        <div id="ar-prompt">
-            <img src="models/latte_macchiato.glb">
-        </div>
-    </model-viewer>
-</div>
-
-<!-- تنظیمات استایل برای دکمه AR -->
-<style>
-    #ar-button {
-        background-color: #6f4e37;
-        border-radius: 8px;
-        border: none;
-        position: absolute;
-        bottom: 16px;
-        right: 16px;
-        padding: 12px 24px;
-        color: white;
-        font-family: 'Vazirmatn', sans-serif;
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>قهوه تک ربوستا (سه‌بعدی) | کافه فاماد</title>
-    <!-- فونت وزیرمتن -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- اسکریپت Model Viewer برای پشتیبانی AR -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قهوه تک ربوستا | کافه فاماد</title>
 
-    <style>
-        :root {
-            --bg-color: #fdfbf7;
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --primary-color: #4a2c11;
-            --accent-color: #c68b59;
-            --text-color: #2b1810;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Vazirmatn', sans-serif;
-        }
+  <script
+    type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js">
+  </script>
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Vazirmatn", sans-serif;
+    }
 
-        .header {
-            width: 100%;
-            max-width: 600px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+    body {
+      min-height: 100vh;
+      padding: 20px;
+      background: #fdfbf7;
+      color: #2b1810;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-        .back-btn {
-            text-decoration: none;
-            color: var(--primary-color);
-            font-weight: 700;
-            background: #f0e6d2;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
+    .header {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
 
-        .back-btn:hover {
-            background: var(--accent-color);
-            color: #fff;
-        }
+    .back-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: #f0e6d2;
+      color: #4a2c11;
+      text-decoration: none;
+      font-weight: 700;
+    }
 
-        .product-card {
-            width: 100%;
-            max-width: 600px;
-            background: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            overflow: hidden;
-            padding: 20px;
-            text-align: center;
-        }
+    .product-card {
+      width: 100%;
+      max-width: 600px;
+      padding: 20px;
+      border: 1px solid #eee4d6;
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 10px 30px #00000012;
+    }
 
-        /* نمایشگر مدل سه‌بعدی */
-        model-viewer {
-            width: 100%;
-            height: 380px;
-            background-color: #f5efe6;
-            border-radius: 15px;
-            --poster-color: transparent;
-        }
+    model-viewer {
+      display: block;
+      width: 100%;
+      height: 380px;
+      border-radius: 15px;
+      background: #f5efe6;
+    }
 
-        .info-section {
-            margin-top: 20px;
-            text-align: right;
-        }
+    .ar-button {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 20px;
+      background: #4a2c11;
+      color: white;
+      font-size: 15px;
+      white-space: nowrap;
+    }
 
-        .product-title {
-            font-size: 1.6rem;
-            color: var(--primary-color);
-            font-weight: 800;
-        }
+    .info-section {
+      margin-top: 20px;
+      line-height: 1.8;
+    }
 
-        .product-desc {
-            font-size: 0.95rem;
-            color: #666;
-            margin-top: 8px;
-            line-height: 1.6;
-        }
+    h1 {
+      color: #4a2c11;
+      font-size: 1.4rem;
+    }
 
-        .price-tag {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--accent-color);
-            margin-top: 15px;
-        }
+    .description {
+      margin-top: 8px;
+      color: #666;
+    }
 
-        /* دکمه اختصاصی واقعیت افزوده (AR) */
-        .custom-ar-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-        }
-    </style>
+    .price {
+      margin-top: 12px;
+      color: #a96932;
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    #model-error {
+      display: none;
+      margin-top: 12px;
+      color: #a12622;
+      text-align: center;
+    }
+  </style>
 </head>
+
 <body>
+  <header class="header">
+    <a class="back-btn" href="index.html">← بازگشت به منو</a>
+    <strong>کافه فاماد</strong>
+  </header>
 
-    <div class="header">
-        <a href="index.html" class="back-btn">← بازگشت به منو</a>
-        <h2>کافه فاماد</h2>
-    </div>
+  <main class="product-card">
+    <model-viewer
+      id="coffeeViewer"
+      src="models/latte_macchiato.glb"
+      alt="مدل سه‌بعدی نوشیدنی"
+      ar
+      ar-modes="quick-look scene-viewer webxr"
+      camera-controls
+      auto-rotate
+      shadow-intensity="1">
 
-    <div class="product-card">
-        <!-- مدل سه‌بعدی -->
-        <model-viewer 
-            id="coffeeViewer"
-            src="latte_macchiato.glb" 
-            alt="قهوه تک ربوستا فاماد"
-            ar 
-            ar-modes="webxr scene-viewer quick-look" 
-            camera-controls 
-            auto-rotate 
-            shadow-intensity="1"
-            loading="eager">
-            
-            <button slot="ar-button" class="custom-ar-button">
-                📱 مشاهده روی میز شما (AR)
-            </button>
-        </model-viewer>
+      <button slot="ar-button" class="ar-button">
+        مشاهده روی میز شما (AR)
+      </button>
+    </model-viewer>
 
-        <div class="info-section">
-            <h1 class="product-title">قهوه تک ربوستا (Single Origin Robusta)</h1>
-            <p class="product-desc">
-                قهوه‌ای پرانرژی با کافئین بالا، کرمای غلیظ و طعم‌یادهای شکلات تلخ و آجیلی. مناسب برای شروع یک روز پرانرژی.
-            </p>
-            <div class="price-tag">قیمت: ۶۵,۰۰۰ تومان</div>
-        </div>
-    </div>
+    <p id="model-error">
+      مدل بارگذاری نشد؛ مسیر و نام فایل مدل را بررسی کن.
+    </p>
 
+    <section class="info-section">
+      <h1>قهوه تک ربوستا</h1>
+      <p class="description">
+        قهوه‌ای پرانرژی با کافئین بالا و کرمای غلیظ.
+      </p>
+      <p class="price">قیمت: ۶۵,۰۰۰ تومان</p>
+    </section>
+  </main>
+
+  <script>
+    const viewer = document.getElementById("coffeeViewer");
+
+    viewer.addEventListener("error", () => {
+      document.getElementById("model-error").style.display = "block";
+    });
+  </script>
 </body>
 </html>
-
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-</style>
